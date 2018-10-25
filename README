@@ -29,6 +29,10 @@ port of the code in:
 
 https://github.com/xdsopl/LDPC
 
+The test Transport Stream can be downloaded from:
+
+http://www.w6rz.net/thefuryclip.ts
+
 Build instructions:
 
     mkdir build

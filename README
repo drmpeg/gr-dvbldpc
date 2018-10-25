@@ -1,0 +1,42 @@
+# Copyright 2018 Ahmet Inan, Ron Economos
+#
+# This file is part of gr-dvbldpc
+#
+# gr-dvbldpc is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option)
+# any later version.
+#
+# gr-dvbldpc is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gr-dvbldpc; see the file COPYING.  If not, write to
+# the Free Software Foundation, Inc., 51 Franklin Street,
+# Boston, MA 02110-1301, USA.
+
+gr-dvbldpc
+======
+
+Author: Ron Economos
+Email: <w6rz@comcast.net>
+
+The goal of this project is to build a GNU Radio block that implements
+an LDPC decoder for the DVB-S2 and DVB-T2 standards. This project is a
+port of the code in:
+
+https://github.com/xdsopl/LDPC
+
+Build instructions:
+
+    mkdir build
+    cd build
+    cmake ../
+    make
+    sudo make install
+    sudo ldconfig
+
+Contributions are welcome!
+

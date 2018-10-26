@@ -206,12 +206,10 @@ struct SumProductAlgorithm
 template <typename TYPE>
 struct LDPCInterface
 {
-	virtual int code_len() = 0;
-	virtual int data_len() = 0;
-	virtual void encode(TYPE *, TYPE *) = 0;
-	virtual void decode(TYPE *, TYPE *) = 0;
-	virtual void examine() = 0;
-	virtual ~LDPCInterface() = default;
+  virtual int code_len() = 0;
+  virtual int data_len() = 0;
+  virtual void decode(TYPE *, TYPE *) = 0;
+  virtual ~LDPCInterface() = default;
 };
 
 template <typename TABLE, typename TYPE>

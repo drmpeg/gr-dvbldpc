@@ -24,38 +24,6 @@
 #include "exclusive_reduce.hh"
 
 template <typename TYPE>
-struct MinSumAlgorithm
-{
-  static TYPE min(TYPE a, TYPE b)
-  {
-    return std::min(a, b);
-  }
-  static TYPE mul(TYPE a, TYPE b)
-  {
-    return a * b;
-  }
-  static void finalp(TYPE *links, int cnt)
-  {
-    TYPE blmags[cnt], mins[cnt];
-    for (int i = 0; i < cnt; ++i)
-      blmags[i] = std::abs(links[i]);
-    CODE::exclusive_reduce(blmags, mins, cnt, min);
-
-    TYPE blsigns[cnt], signs[cnt];
-    for (int i = 0; i < cnt; ++i)
-      blsigns[i] = links[i] < TYPE(0) ? TYPE(-1) : TYPE(1);
-    CODE::exclusive_reduce(blsigns, signs, cnt, mul);
-
-    for (int i = 0; i < cnt; ++i)
-      links[i] = signs[i] * mins[i];
-  }
-  static TYPE add(TYPE a, TYPE b)
-  {
-    return a + b;
-  }
-};
-
-template <typename TYPE>
 struct MinSumCAlgorithm
 {
   static TYPE correction_factor(TYPE a, TYPE b)
@@ -93,117 +61,6 @@ struct MinSumCAlgorithm
 };
 
 template <typename TYPE>
-struct LogDomainSPA
-{
-  static TYPE phi(TYPE x)
-  {
-    x = std::min(std::max(x, TYPE(0.000001)), TYPE(14.5));
-    return std::log(std::exp(x)+TYPE(1)) - std::log(std::exp(x)-TYPE(1));
-  }
-  static TYPE mul(TYPE a, TYPE b)
-  {
-    return a * b;
-  }
-  static TYPE add(TYPE a, TYPE b)
-  {
-    return a + b;
-  }
-  static void finalp(TYPE *links, int cnt)
-  {
-    TYPE blmags[cnt], sums[cnt];
-    for (int i = 0; i < cnt; ++i)
-      blmags[i] = phi(std::abs(links[i]));
-    CODE::exclusive_reduce(blmags, sums, cnt, add);
-
-    TYPE blsigns[cnt], signs[cnt];
-    for (int i = 0; i < cnt; ++i)
-      blsigns[i] = links[i] < TYPE(0) ? TYPE(-1) : TYPE(1);
-    CODE::exclusive_reduce(blsigns, signs, cnt, mul);
-
-    for (int i = 0; i < cnt; ++i)
-      links[i] = signs[i] * phi(sums[i]);
-  }
-};
-
-template <typename TYPE, int LAMBDA>
-struct LambdaMinAlgorithm
-{
-  static TYPE phi(TYPE x)
-  {
-    x = std::min(std::max(x, TYPE(0.000001)), TYPE(14.5));
-    return std::log(std::exp(x)+TYPE(1)) - std::log(std::exp(x)-TYPE(1));
-  }
-  static TYPE mul(TYPE a, TYPE b)
-  {
-    return a * b;
-  }
-  static TYPE add(TYPE a, TYPE b)
-  {
-    return a + b;
-  }
-  static void finalp(TYPE *links, int cnt)
-  {
-    typedef std::pair<TYPE, int> Pair;
-    Pair blmags[cnt];
-    for (int i = 0; i < cnt; ++i)
-      blmags[i] = Pair(std::abs(links[i]), i);
-    std::nth_element(blmags, blmags+LAMBDA, blmags+cnt, [](Pair a, Pair b){ return a.first < b.first; });
-
-    TYPE sums[cnt];
-    for (int i = 0; i < cnt; ++i) {
-      int j = 0;
-      if (i == blmags[0].second)
-        ++j;
-      sums[i] = phi(blmags[j].first);
-      for (int l = 1; l < LAMBDA; ++l) {
-        ++j;
-        if (i == blmags[j].second)
-          ++j;
-        sums[i] += phi(blmags[j].first);
-      }
-    }
-
-    TYPE blsigns[cnt], signs[cnt];
-    for (int i = 0; i < cnt; ++i)
-      blsigns[i] = links[i] < TYPE(0) ? TYPE(-1) : TYPE(1);
-    CODE::exclusive_reduce(blsigns, signs, cnt, mul);
-
-    for (int i = 0; i < cnt; ++i)
-      links[i] = signs[i] * phi(sums[i]);
-  }
-};
-
-template <typename TYPE>
-struct SumProductAlgorithm
-{
-  static TYPE prep(TYPE x)
-  {
-    return std::tanh(TYPE(0.5) * x);
-  }
-  static TYPE postp(TYPE x)
-  {
-    return TYPE(2) * std::atanh(x);
-  }
-  static TYPE mul(TYPE a, TYPE b)
-  {
-    return a * b;
-  }
-  static void finalp(TYPE *links, int cnt)
-  {
-    TYPE in[cnt], out[cnt];
-    for (int i = 0; i < cnt; ++i)
-      in[i] = prep(links[i]);
-    CODE::exclusive_reduce(in, out, cnt, mul);
-    for (int i = 0; i < cnt; ++i)
-      links[i] = postp(out[i]);
-  }
-  static TYPE add(TYPE a, TYPE b)
-  {
-    return a + b;
-  }
-};
-
-template <typename TYPE>
 struct LDPCInterface
 {
   virtual int code_len() = 0;
@@ -232,11 +89,7 @@ class LDPC : public LDPCInterface<TYPE>
   TYPE cnl[R * CNL];
   int cnv[R];
   int cnc[R];
-  //MinSumAlgorithm<TYPE> alg;
   MinSumCAlgorithm<TYPE> alg;
-  //LogDomainSPA<TYPE> alg;
-  //LambdaMinAlgorithm<TYPE, 3> alg;
-  //SumProductAlgorithm<TYPE> alg;
 
   int signum(TYPE v)
   {

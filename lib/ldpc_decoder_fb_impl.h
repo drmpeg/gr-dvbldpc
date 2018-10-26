@@ -35,6 +35,7 @@ namespace gr {
       unsigned int code_rate;
       unsigned int dvb_standard;
       float sigma;
+      LDPCInterface<float> *ldpc;
 
      public:
       ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, float snr);

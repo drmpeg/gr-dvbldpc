@@ -203,8 +203,20 @@ struct SumProductAlgorithm
   }
 };
 
+template <typename TYPE>
+struct LDPCInterface
+{
+	virtual int code_len() = 0;
+	virtual int data_len() = 0;
+	virtual void encode(TYPE *, TYPE *) = 0;
+	virtual void decode(TYPE *, TYPE *) = 0;
+	virtual void examine() = 0;
+	virtual ~LDPCInterface() = default;
+};
+
 template <typename TABLE, typename TYPE>
-class LDPC {
+class LDPC : public LDPCInterface<TYPE>
+{
   static const int M = TABLE::M;
   static const int N = TABLE::N;
   static const int K = TABLE::K;
@@ -379,6 +391,16 @@ class LDPC {
   }
 
 public:
+
+  int code_len()
+  {
+    return N;
+  }
+
+  int data_len()
+  {
+    return K;
+  }
 
   void decode(TYPE *data, TYPE *parity)
   {

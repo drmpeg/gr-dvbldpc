@@ -112,62 +112,6 @@ constexpr int DVB_S2_TABLE_C10::DEG[];
 constexpr int DVB_S2_TABLE_C10::LEN[];
 constexpr int DVB_S2_TABLE_C10::POS[];
 
-template <typename TYPE>
-LDPCInterface<TYPE> *create_decoder(char prefix, int number)
-{
-  if (prefix == 'B') {
-    switch (number) {
-    case 1:
-      return new LDPC<DVB_S2_TABLE_B1, TYPE>();
-    case 2:
-      return new LDPC<DVB_S2_TABLE_B2, TYPE>();
-    case 3:
-      return new LDPC<DVB_S2_TABLE_B3, TYPE>();
-    case 4:
-      return new LDPC<DVB_S2_TABLE_B4, TYPE>();
-    case 5:
-      return new LDPC<DVB_S2_TABLE_B5, TYPE>();
-    case 6:
-      return new LDPC<DVB_S2_TABLE_B6, TYPE>();
-    case 7:
-      return new LDPC<DVB_S2_TABLE_B7, TYPE>();
-    case 8:
-      return new LDPC<DVB_S2_TABLE_B8, TYPE>();
-    case 9:
-      return new LDPC<DVB_S2_TABLE_B9, TYPE>();
-    case 10:
-      return new LDPC<DVB_S2_TABLE_B10, TYPE>();
-    case 11:
-      return new LDPC<DVB_S2_TABLE_B11, TYPE>();
-    }
-  }
-  if (prefix == 'C') {
-    switch (number) {
-    case 1:
-      return new LDPC<DVB_S2_TABLE_C1, TYPE>();
-    case 2:
-      return new LDPC<DVB_S2_TABLE_C2, TYPE>();
-    case 3:
-      return new LDPC<DVB_S2_TABLE_C3, TYPE>();
-    case 4:
-      return new LDPC<DVB_S2_TABLE_C4, TYPE>();
-    case 5:
-      return new LDPC<DVB_S2_TABLE_C5, TYPE>();
-    case 6:
-      return new LDPC<DVB_S2_TABLE_C6, TYPE>();
-    case 7:
-      return new LDPC<DVB_S2_TABLE_C7, TYPE>();
-    case 8:
-      return new LDPC<DVB_S2_TABLE_C8, TYPE>();
-    case 9:
-      return new LDPC<DVB_S2_TABLE_C9, TYPE>();
-    case 10:
-      return new LDPC<DVB_S2_TABLE_C10, TYPE>();
-    }
-  }
-  return 0;
-}
-
 namespace gr {
   namespace dvbldpc {
 
@@ -190,37 +134,37 @@ namespace gr {
         frame_size = FRAME_SIZE_NORMAL;
         switch (rate) {
           case C1_4:
-            ldpc = create_decoder<float>('B', 1);
+            ldpc = new LDPC<DVB_S2_TABLE_B1, float>();
             break;
           case C1_3:
-            ldpc = create_decoder<float>('B', 2);
+            ldpc = new LDPC<DVB_S2_TABLE_B2, float>();
             break;
           case C2_5:
-            ldpc = create_decoder<float>('B', 3);
+            ldpc = new LDPC<DVB_S2_TABLE_B3, float>();
             break;
           case C1_2:
-            ldpc = create_decoder<float>('B', 4);
+            ldpc = new LDPC<DVB_S2_TABLE_B4, float>();
             break;
           case C3_5:
-            ldpc = create_decoder<float>('B', 5);
+            ldpc = new LDPC<DVB_S2_TABLE_B5, float>();
             break;
           case C2_3:
-            ldpc = create_decoder<float>('B', 6);
+            ldpc = new LDPC<DVB_S2_TABLE_B6, float>();
             break;
           case C3_4:
-            ldpc = create_decoder<float>('B', 7);
+            ldpc = new LDPC<DVB_S2_TABLE_B7, float>();
             break;
           case C4_5:
-            ldpc = create_decoder<float>('B', 8);
+            ldpc = new LDPC<DVB_S2_TABLE_B8, float>();
             break;
           case C5_6:
-            ldpc = create_decoder<float>('B', 9);
+            ldpc = new LDPC<DVB_S2_TABLE_B9, float>();
             break;
           case C8_9:
-            ldpc = create_decoder<float>('B', 10);
+            ldpc = new LDPC<DVB_S2_TABLE_B10, float>();
             break;
           case C9_10:
-            ldpc = create_decoder<float>('B', 11);
+            ldpc = new LDPC<DVB_S2_TABLE_B11, float>();
             break;
           default:
             break;
@@ -230,34 +174,34 @@ namespace gr {
         frame_size = FRAME_SIZE_SHORT;
         switch (rate) {
           case C1_4:
-            ldpc = create_decoder<float>('C', 1);
+            ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
             break;
           case C1_3:
-            ldpc = create_decoder<float>('C', 2);
+            ldpc = new LDPC<DVB_S2_TABLE_C2, float>();
             break;
           case C2_5:
-            ldpc = create_decoder<float>('C', 3);
+            ldpc = new LDPC<DVB_S2_TABLE_C3, float>();
             break;
           case C1_2:
-            ldpc = create_decoder<float>('C', 4);
+            ldpc = new LDPC<DVB_S2_TABLE_C4, float>();
             break;
           case C3_5:
-            ldpc = create_decoder<float>('C', 5);
+            ldpc = new LDPC<DVB_S2_TABLE_C5, float>();
             break;
           case C2_3:
-            ldpc = create_decoder<float>('C', 6);
+            ldpc = new LDPC<DVB_S2_TABLE_C6, float>();
             break;
           case C3_4:
-            ldpc = create_decoder<float>('C', 7);
+            ldpc = new LDPC<DVB_S2_TABLE_C7, float>();
             break;
           case C4_5:
-            ldpc = create_decoder<float>('C', 8);
+            ldpc = new LDPC<DVB_S2_TABLE_C8, float>();
             break;
           case C5_6:
-            ldpc = create_decoder<float>('C', 9);
+            ldpc = new LDPC<DVB_S2_TABLE_C9, float>();
             break;
           case C8_9:
-            ldpc = create_decoder<float>('C', 10);
+            ldpc = new LDPC<DVB_S2_TABLE_C10, float>();
             break;
           default:
             break;

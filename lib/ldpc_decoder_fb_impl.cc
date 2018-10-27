@@ -211,7 +211,6 @@ namespace gr {
       switch (constellation) {
         case MOD_QPSK:
           mod = new PhaseShiftKeying<4, gr_complex>();
-          printf("QPSK\n");
           break;
         case MOD_16QAM:
           mod = new QuadratureAmplitudeModulation<16, gr_complex>();
@@ -276,9 +275,7 @@ namespace gr {
         precision = 1 / (sigma * sigma);
         printf("sigma = %f, precision = %f, snr = %f\n", sigma, precision, snr);
         for (int j = 0; j < SYMBOLS; j++) {
-          mod->soft(tmp, in[j], precision);
-          code[j*2] = tmp[0];
-          code[(j*2)+1] = tmp[1];
+          mod->soft(code + (j * 2), in[j], precision);
         }
         ldpc->decode(code, code + ldpc->data_len());
         for (int j = 0; j < ldpc->code_len(); j++) {

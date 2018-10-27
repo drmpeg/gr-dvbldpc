@@ -22,6 +22,8 @@
 #define INCLUDED_DVBLDPC_LDPC_DECODER_FB_IMPL_H
 
 #include <dvbldpc/ldpc_decoder_fb.h>
+#include "psk.hh"
+#include "qam.hh"
 #include "ldpc_decoder.hh"
 #include "dvb_s2_tables.hh"
 
@@ -34,11 +36,11 @@ namespace gr {
       unsigned int frame_size;
       unsigned int code_rate;
       unsigned int dvb_standard;
-      float sigma;
       LDPCInterface<float> *ldpc;
+      Modulation<gr_complex> *mod;
 
      public:
-      ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, float snr);
+      ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation);
       ~ldpc_decoder_fb_impl();
 
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);

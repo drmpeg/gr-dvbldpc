@@ -24,6 +24,7 @@
 
 #include <gnuradio/io_signature.h>
 #include "ldpc_decoder_fb_impl.h"
+#include <stdio.h>
 #include <cmath>
 #include <iostream>
 #include <algorithm>
@@ -116,18 +117,18 @@ namespace gr {
   namespace dvbldpc {
 
     ldpc_decoder_fb::sptr
-    ldpc_decoder_fb::make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, float snr)
+    ldpc_decoder_fb::make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
     {
       return gnuradio::get_initial_sptr
-        (new ldpc_decoder_fb_impl(standard, framesize, rate, snr));
+        (new ldpc_decoder_fb_impl(standard, framesize, rate, constellation));
     }
 
     /*
      * The private constructor
      */
-    ldpc_decoder_fb_impl::ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, float snr)
+    ldpc_decoder_fb_impl::ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
       : gr::block("ldpc_decoder_fb",
-              gr::io_signature::make(1, 1, sizeof(float)),
+              gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
       if (framesize == FECFRAME_NORMAL) {
@@ -207,9 +208,25 @@ namespace gr {
             break;
         }
       }
+      switch (constellation) {
+        case MOD_QPSK:
+          mod = new PhaseShiftKeying<4, gr_complex>();
+          printf("QPSK\n");
+          break;
+        case MOD_16QAM:
+          mod = new QuadratureAmplitudeModulation<16, gr_complex>();
+          break;
+        case MOD_64QAM:
+          mod = new QuadratureAmplitudeModulation<64, gr_complex>();
+          break;
+        case MOD_256QAM:
+          mod = new QuadratureAmplitudeModulation<256, gr_complex>();
+          break;
+        default:
+          break;
+      }
       code_rate = rate;
       dvb_standard = standard;
-      sigma = std::sqrt(1 / std::pow(10, snr / 10));
       set_output_multiple(frame_size);
     }
 
@@ -224,7 +241,7 @@ namespace gr {
     void
     ldpc_decoder_fb_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = noutput_items;
+      ninput_items_required[0] = noutput_items / mod->bits();
     }
 
     int
@@ -233,13 +250,35 @@ namespace gr {
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-      const float *in = (const float *) input_items[0];
+      const gr_complex *in = (const gr_complex *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
       float code[ldpc->code_len()];
+      float tmp[mod->bits()];
+      float sp, np, sigma, precision, snr;
+      gr_complex s, e;
+      const int SYMBOLS = ldpc->code_len() / mod->bits();
 
       for (int i = 0; i < noutput_items; i += frame_size) {
-        for (int j = 0; j < ldpc->code_len(); j++) {
-          code[j] = 2 * (*in++ / (sigma * sigma));
+        sp = 0;
+        np = 0;
+        for (int j = 0; j < SYMBOLS; j++) {
+          mod->hard(tmp, in[j]);
+          s = mod->map(tmp);
+          e = in[j] - s;
+          sp += std::norm(s);
+          np += std::norm(e);
+        }
+        if (!(np > 0)) {
+          np = 1e-12;
+        }
+        snr = 10 * std::log10(sp / np);
+        sigma = std::sqrt(np / (2 * sp));
+        precision = 1 / (sigma * sigma);
+        printf("sigma = %f, precision = %f, snr = %f\n", sigma, precision, snr);
+        for (int j = 0; j < SYMBOLS; j++) {
+          mod->soft(tmp, in[j], precision);
+          code[j*2] = tmp[0];
+          code[(j*2)+1] = tmp[1];
         }
         ldpc->decode(code, code + ldpc->data_len());
         for (int j = 0; j < ldpc->code_len(); j++) {
@@ -250,10 +289,11 @@ namespace gr {
             *out++ = 1;
           }
         }
+        in += frame_size / mod->bits();
       }
       // Tell runtime system how many input items we consumed on
       // each input stream.
-      consume_each (noutput_items);
+      consume_each (noutput_items / mod->bits());
 
       // Tell runtime system how many output items we produced.
       return noutput_items;

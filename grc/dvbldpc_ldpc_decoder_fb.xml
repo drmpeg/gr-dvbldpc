@@ -23,7 +23,12 @@ $rate3.val, #slurp
 $rate4.val, #slurp
 #end if
 #end if
-$snr)</make>
+#if str($standard) == 'STANDARD_DVBT2'
+$constellation1.val, #slurp
+#else
+$constellation2.val, #slurp
+#end if
+)</make>
   <param>
     <name>Standard</name>
     <key>standard</key>
@@ -283,14 +288,45 @@ $snr)</make>
     </option>
   </param>
   <param>
-    <name>SNR</name>
-    <key>snr</key>
-    <value>10</value>
-    <type>float</type>
+    <name>Constellation</name>
+    <key>constellation1</key>
+    <type>enum</type>
+    <hide>$standard.hide_dvbt2</hide>
+    <option>
+      <name>QPSK</name>
+      <key>MOD_QPSK</key>
+      <opt>val:dvbldpc.MOD_QPSK</opt>
+    </option>
+    <option>
+      <name>16QAM</name>
+      <key>MOD_16QAM</key>
+      <opt>val:dvbldpc.MOD_16QAM</opt>
+    </option>
+    <option>
+      <name>64QAM</name>
+      <key>MOD_64QAM</key>
+      <opt>val:dvbldpc.MOD_64QAM</opt>
+    </option>
+    <option>
+      <name>256QAM</name>
+      <key>MOD_256QAM</key>
+      <opt>val:dvbldpc.MOD_256QAM</opt>
+    </option>
+  </param>
+  <param>
+    <name>Constellation</name>
+    <key>constellation2</key>
+    <type>enum</type>
+    <hide>$standard.hide_dvbs2</hide>
+    <option>
+      <name>QPSK</name>
+      <key>MOD_QPSK</key>
+      <opt>val:dvbldpc.MOD_QPSK</opt>
+    </option>
   </param>
   <sink>
     <name>in</name>
-    <type>float</type>
+    <type>complex</type>
   </sink>
   <source>
     <name>out</name>

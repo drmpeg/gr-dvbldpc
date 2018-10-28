@@ -19,5 +19,5 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    dvbldpc_ldpc_decoder_fb.xml DESTINATION share/gnuradio/grc/blocks
+    dvbldpc_ldpc_decoder_cb.xml DESTINATION share/gnuradio/grc/blocks
 )

@@ -23,5 +23,5 @@
 ########################################################################
 install(FILES
     api.h
-    ldpc_decoder_fb.h DESTINATION include/dvbldpc
+    ldpc_decoder_cb.h DESTINATION include/dvbldpc
 )

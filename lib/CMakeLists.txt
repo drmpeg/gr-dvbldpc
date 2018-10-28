@@ -27,7 +27,7 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND dvbldpc_sources
-    ldpc_decoder_fb_impl.cc
+    ldpc_decoder_cb_impl.cc
 )
 
 set(dvbldpc_sources "${dvbldpc_sources}" PARENT_SCOPE)

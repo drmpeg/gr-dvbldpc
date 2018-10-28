@@ -884,7 +884,7 @@
     </param>
   </block>
   <block>
-    <key>dvbldpc_ldpc_decoder_fb</key>
+    <key>dvbldpc_ldpc_decoder_cb</key>
     <param>
       <key>alias</key>
       <value></value>
@@ -943,7 +943,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>dvbldpc_ldpc_decoder_fb_0</value>
+      <value>dvbldpc_ldpc_decoder_cb_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1313,7 +1313,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
-    <sink_block_id>dvbldpc_ldpc_decoder_fb_0</sink_block_id>
+    <sink_block_id>dvbldpc_ldpc_decoder_cb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1378,7 +1378,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>dvbldpc_ldpc_decoder_fb_0</source_block_id>
+    <source_block_id>dvbldpc_ldpc_decoder_cb_0</source_block_id>
     <sink_block_id>blocks_throttle_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>

@@ -9,10 +9,10 @@
 
 %{
 #include "dvbldpc/dvb_config.h"
-#include "dvbldpc/ldpc_decoder_fb.h"
+#include "dvbldpc/ldpc_decoder_cb.h"
 %}
 
 
 %include "dvbldpc/dvb_config.h"
-%include "dvbldpc/ldpc_decoder_fb.h"
-GR_SWIG_BLOCK_MAGIC2(dvbldpc, ldpc_decoder_fb);
+%include "dvbldpc/ldpc_decoder_cb.h"
+GR_SWIG_BLOCK_MAGIC2(dvbldpc, ldpc_decoder_cb);

@@ -19,8 +19,8 @@
  */
 
 
-#ifndef INCLUDED_DVBLDPC_LDPC_DECODER_FB_H
-#define INCLUDED_DVBLDPC_LDPC_DECODER_FB_H
+#ifndef INCLUDED_DVBLDPC_LDPC_DECODER_CB_H
+#define INCLUDED_DVBLDPC_LDPC_DECODER_CB_H
 
 #include <dvbldpc/api.h>
 #include <gnuradio/block.h>
@@ -34,17 +34,17 @@ namespace gr {
      * \ingroup dvbldpc
      *
      */
-    class DVBLDPC_API ldpc_decoder_fb : virtual public gr::block
+    class DVBLDPC_API ldpc_decoder_cb : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<ldpc_decoder_fb> sptr;
+      typedef boost::shared_ptr<ldpc_decoder_cb> sptr;
 
       /*!
-       * \brief Return a shared_ptr to a new instance of dvbldpc::ldpc_decoder_fb.
+       * \brief Return a shared_ptr to a new instance of dvbldpc::ldpc_decoder_cb.
        *
-       * To avoid accidental use of raw pointers, dvbldpc::ldpc_decoder_fb's
+       * To avoid accidental use of raw pointers, dvbldpc::ldpc_decoder_cb's
        * constructor is in a private implementation
-       * class. dvbldpc::ldpc_decoder_fb::make is the public interface for
+       * class. dvbldpc::ldpc_decoder_cb::make is the public interface for
        * creating new instances.
        */
       static sptr make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation);
@@ -53,5 +53,5 @@ namespace gr {
   } // namespace dvbldpc
 } // namespace gr
 
-#endif /* INCLUDED_DVBLDPC_LDPC_DECODER_FB_H */
+#endif /* INCLUDED_DVBLDPC_LDPC_DECODER_CB_H */
 

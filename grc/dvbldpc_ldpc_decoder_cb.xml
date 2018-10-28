@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
   <name>LDPC Decoder</name>
-  <key>dvbldpc_ldpc_decoder_fb</key>
+  <key>dvbldpc_ldpc_decoder_cb</key>
   <category>[Core]/Digital Television/DVB-LDPC</category>
   <import>import dvbldpc</import>
-  <make>dvbldpc.ldpc_decoder_fb($standard.val, #slurp
+  <make>dvbldpc.ldpc_decoder_cb($standard.val, #slurp
 #if str($standard) == 'STANDARD_DVBT2'
 $framesize1.val, #slurp
 #else

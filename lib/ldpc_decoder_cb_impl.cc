@@ -23,7 +23,7 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "ldpc_decoder_fb_impl.h"
+#include "ldpc_decoder_cb_impl.h"
 #include <stdio.h>
 #include <cmath>
 #include <iostream>
@@ -116,18 +116,18 @@ constexpr int DVB_S2_TABLE_C10::POS[];
 namespace gr {
   namespace dvbldpc {
 
-    ldpc_decoder_fb::sptr
-    ldpc_decoder_fb::make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
+    ldpc_decoder_cb::sptr
+    ldpc_decoder_cb::make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
     {
       return gnuradio::get_initial_sptr
-        (new ldpc_decoder_fb_impl(standard, framesize, rate, constellation));
+        (new ldpc_decoder_cb_impl(standard, framesize, rate, constellation));
     }
 
     /*
      * The private constructor
      */
-    ldpc_decoder_fb_impl::ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
-      : gr::block("ldpc_decoder_fb",
+    ldpc_decoder_cb_impl::ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
+      : gr::block("ldpc_decoder_cb",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
@@ -232,19 +232,19 @@ namespace gr {
     /*
      * Our virtual destructor.
      */
-    ldpc_decoder_fb_impl::~ldpc_decoder_fb_impl()
+    ldpc_decoder_cb_impl::~ldpc_decoder_cb_impl()
     {
       delete ldpc;
     }
 
     void
-    ldpc_decoder_fb_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
+    ldpc_decoder_cb_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
       ninput_items_required[0] = noutput_items / mod->bits();
     }
 
     int
-    ldpc_decoder_fb_impl::general_work (int noutput_items,
+    ldpc_decoder_cb_impl::general_work (int noutput_items,
                        gr_vector_int &ninput_items,
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)

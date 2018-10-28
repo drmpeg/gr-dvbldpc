@@ -18,10 +18,10 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_DVBLDPC_LDPC_DECODER_FB_IMPL_H
-#define INCLUDED_DVBLDPC_LDPC_DECODER_FB_IMPL_H
+#ifndef INCLUDED_DVBLDPC_LDPC_DECODER_CB_IMPL_H
+#define INCLUDED_DVBLDPC_LDPC_DECODER_CB_IMPL_H
 
-#include <dvbldpc/ldpc_decoder_fb.h>
+#include <dvbldpc/ldpc_decoder_cb.h>
 #include "psk.hh"
 #include "qam.hh"
 #include "ldpc_decoder.hh"
@@ -30,7 +30,7 @@
 namespace gr {
   namespace dvbldpc {
 
-    class ldpc_decoder_fb_impl : public ldpc_decoder_fb
+    class ldpc_decoder_cb_impl : public ldpc_decoder_cb
     {
      private:
       unsigned int frame_size;
@@ -40,8 +40,8 @@ namespace gr {
       Modulation<gr_complex> *mod;
 
      public:
-      ldpc_decoder_fb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation);
-      ~ldpc_decoder_fb_impl();
+      ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation);
+      ~ldpc_decoder_cb_impl();
 
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
@@ -54,5 +54,5 @@ namespace gr {
   } // namespace dvbldpc
 } // namespace gr
 
-#endif /* INCLUDED_DVBLDPC_LDPC_DECODER_FB_IMPL_H */
+#endif /* INCLUDED_DVBLDPC_LDPC_DECODER_CB_IMPL_H */
 

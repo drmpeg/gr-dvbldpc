@@ -35,12 +35,15 @@ namespace gr {
      private:
       unsigned int frame_size;
       unsigned int code_rate;
+      unsigned int nbch;
       unsigned int dvb_standard;
+      unsigned int output_mode;
+      unsigned int frame;
       LDPCInterface<float> *ldpc;
       Modulation<gr_complex> *mod;
 
      public:
-      ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation);
+      ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation, dvb_outputmode_t outputmode);
       ~ldpc_decoder_cb_impl();
 
       void forecast (int noutput_items, gr_vector_int &ninput_items_required);

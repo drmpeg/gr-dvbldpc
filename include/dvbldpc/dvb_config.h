@@ -125,6 +125,11 @@ namespace gr {
       GI_19_256,
     };
 
+    enum dvb_outputmode_t {
+      OM_CODEWORD = 0,
+      OM_MESSAGE,
+    };
+
   } // namespace dvbldpc
 } // namespace gr
 
@@ -133,6 +138,7 @@ typedef gr::dvbldpc::dvb_code_rate_t dvb_code_rate_t;
 typedef gr::dvbldpc::dvb_framesize_t dvb_framesize_t;
 typedef gr::dvbldpc::dvb_constellation_t dvb_constellation_t;
 typedef gr::dvbldpc::dvb_guardinterval_t dvb_guardinterval_t;
+typedef gr::dvbldpc::dvb_outputmode_t dvb_outputmode_t;
 
 #endif /* INCLUDED_DVBLDPC_DVB_CONFIG_H */
 

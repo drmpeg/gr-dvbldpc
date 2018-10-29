@@ -117,16 +117,16 @@ namespace gr {
   namespace dvbldpc {
 
     ldpc_decoder_cb::sptr
-    ldpc_decoder_cb::make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
+    ldpc_decoder_cb::make(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation, dvb_outputmode_t outputmode)
     {
       return gnuradio::get_initial_sptr
-        (new ldpc_decoder_cb_impl(standard, framesize, rate, constellation));
+        (new ldpc_decoder_cb_impl(standard, framesize, rate, constellation, outputmode));
     }
 
     /*
      * The private constructor
      */
-    ldpc_decoder_cb_impl::ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation)
+    ldpc_decoder_cb_impl::ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation, dvb_outputmode_t outputmode)
       : gr::block("ldpc_decoder_cb",
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(unsigned char)))
@@ -135,36 +135,47 @@ namespace gr {
         frame_size = FRAME_SIZE_NORMAL;
         switch (rate) {
           case C1_4:
+            nbch = 16200;
             ldpc = new LDPC<DVB_S2_TABLE_B1, float>();
             break;
           case C1_3:
+            nbch = 21600;
             ldpc = new LDPC<DVB_S2_TABLE_B2, float>();
             break;
           case C2_5:
+            nbch = 25920;
             ldpc = new LDPC<DVB_S2_TABLE_B3, float>();
             break;
           case C1_2:
+            nbch = 32400;
             ldpc = new LDPC<DVB_S2_TABLE_B4, float>();
             break;
           case C3_5:
+            nbch = 38880;
             ldpc = new LDPC<DVB_S2_TABLE_B5, float>();
             break;
           case C2_3:
+            nbch = 43200;
             ldpc = new LDPC<DVB_S2_TABLE_B6, float>();
             break;
           case C3_4:
+            nbch = 48600;
             ldpc = new LDPC<DVB_S2_TABLE_B7, float>();
             break;
           case C4_5:
+            nbch = 51840;
             ldpc = new LDPC<DVB_S2_TABLE_B8, float>();
             break;
           case C5_6:
+            nbch = 54000;
             ldpc = new LDPC<DVB_S2_TABLE_B9, float>();
             break;
           case C8_9:
+            nbch = 57600;
             ldpc = new LDPC<DVB_S2_TABLE_B10, float>();
             break;
           case C9_10:
+            nbch = 58320;
             ldpc = new LDPC<DVB_S2_TABLE_B11, float>();
             break;
           default:
@@ -175,33 +186,43 @@ namespace gr {
         frame_size = FRAME_SIZE_SHORT;
         switch (rate) {
           case C1_4:
+            nbch = 3240;
             ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
             break;
           case C1_3:
+            nbch = 5400;
             ldpc = new LDPC<DVB_S2_TABLE_C2, float>();
             break;
           case C2_5:
+            nbch = 6480;
             ldpc = new LDPC<DVB_S2_TABLE_C3, float>();
             break;
           case C1_2:
+            nbch = 7200;
             ldpc = new LDPC<DVB_S2_TABLE_C4, float>();
             break;
           case C3_5:
+            nbch = 9720;
             ldpc = new LDPC<DVB_S2_TABLE_C5, float>();
             break;
           case C2_3:
+            nbch = 10800;
             ldpc = new LDPC<DVB_S2_TABLE_C6, float>();
             break;
           case C3_4:
+            nbch = 11880;
             ldpc = new LDPC<DVB_S2_TABLE_C7, float>();
             break;
           case C4_5:
+            nbch = 12600;
             ldpc = new LDPC<DVB_S2_TABLE_C8, float>();
             break;
           case C5_6:
+            nbch = 13320;
             ldpc = new LDPC<DVB_S2_TABLE_C9, float>();
             break;
           case C8_9:
+            nbch = 14400;
             ldpc = new LDPC<DVB_S2_TABLE_C10, float>();
             break;
           default:
@@ -224,9 +245,16 @@ namespace gr {
         default:
           break;
       }
+      frame = 0;
       code_rate = rate;
       dvb_standard = standard;
-      set_output_multiple(frame_size);
+      output_mode = outputmode;
+      if (outputmode == OM_MESSAGE) {
+        set_output_multiple(nbch);
+      }
+      else {
+         set_output_multiple(frame_size);
+      }
     }
 
     /*
@@ -240,7 +268,12 @@ namespace gr {
     void
     ldpc_decoder_cb_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      ninput_items_required[0] = noutput_items / mod->bits();
+      if (output_mode == OM_MESSAGE) {
+        ninput_items_required[0] = (noutput_items / nbch) * (frame_size / mod->bits());
+      }
+      else {
+        ninput_items_required[0] = noutput_items / mod->bits();
+      }
     }
 
     int
@@ -256,8 +289,11 @@ namespace gr {
       float sp, np, sigma, precision, snr;
       gr_complex s, e;
       const int SYMBOLS = ldpc->code_len() / mod->bits();
+      int trials = 50;
+      int consumed = 0;
+      int output_size = output_mode ? nbch : ldpc->code_len();
 
-      for (int i = 0; i < noutput_items; i += frame_size) {
+      for (int i = 0; i < noutput_items; i += output_size) {
         sp = 0;
         np = 0;
         for (int j = 0; j < SYMBOLS; j++) {
@@ -273,12 +309,18 @@ namespace gr {
         snr = 10 * std::log10(sp / np);
         sigma = std::sqrt(np / (2 * sp));
         precision = 1 / (sigma * sigma);
-        printf("sigma = %f, precision = %f, snr = %f\n", sigma, precision, snr);
         for (int j = 0; j < SYMBOLS; j++) {
-          mod->soft(code + (j * 2), in[j], precision);
+          mod->soft(code + (j * mod->bits()), in[j], precision);
         }
-        ldpc->decode(code, code + ldpc->data_len());
-        for (int j = 0; j < ldpc->code_len(); j++) {
+        int count = ldpc->decode(code, code + ldpc->data_len(), trials);
+        if (count < 0) {
+          printf("frame = %d, snr = %.2f, LDPC decoder failed at converging to a code word.\n", frame, snr);
+        }
+        else {
+          printf("frame = %d, snr = %.2f, trials = %d\n", frame, snr, trials - count);
+        }
+        frame++;
+        for (int j = 0; j < output_size; j++) {
           if (code[j] >= 0) {
             *out++ = 0;
           }
@@ -287,10 +329,12 @@ namespace gr {
           }
         }
         in += frame_size / mod->bits();
+        consumed += frame_size / mod->bits();
       }
+
       // Tell runtime system how many input items we consumed on
       // each input stream.
-      consume_each (noutput_items / mod->bits());
+      consume_each (consumed);
 
       // Tell runtime system how many output items we produced.
       return noutput_items;

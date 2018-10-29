@@ -28,7 +28,7 @@ $constellation1.val, #slurp
 #else
 $constellation2.val, #slurp
 #end if
-)</make>
+$outputmode.val)</make>
   <param>
     <name>Standard</name>
     <key>standard</key>
@@ -322,6 +322,21 @@ $constellation2.val, #slurp
       <name>QPSK</name>
       <key>MOD_QPSK</key>
       <opt>val:dvbldpc.MOD_QPSK</opt>
+    </option>
+  </param>
+  <param>
+    <name>Output mode</name>
+    <key>outputmode</key>
+    <type>enum</type>
+    <option>
+      <name>Codeword</name>
+      <key>OM_CODEWORD</key>
+      <opt>val:dvbldpc.OM_CODEWORD</opt>
+    </option>
+    <option>
+      <name>Message</name>
+      <key>OM_MESSAGE</key>
+      <opt>val:dvbldpc.OM_MESSAGE</opt>
     </option>
   </param>
   <sink>

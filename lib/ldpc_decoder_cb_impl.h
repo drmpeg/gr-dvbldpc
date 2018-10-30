@@ -26,6 +26,7 @@
 #include "qam.hh"
 #include "ldpc_decoder.hh"
 #include "dvb_s2_tables.hh"
+#include "dvb_s2x_tables.hh"
 
 namespace gr {
   namespace dvbldpc {

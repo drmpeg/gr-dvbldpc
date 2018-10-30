@@ -73,6 +73,102 @@ constexpr int DVB_S2_TABLE_B11::DEG[];
 constexpr int DVB_S2_TABLE_B11::LEN[];
 constexpr int DVB_S2_TABLE_B11::POS[];
 
+constexpr int DVB_S2X_TABLE_B1::DEG[];
+constexpr int DVB_S2X_TABLE_B1::LEN[];
+constexpr int DVB_S2X_TABLE_B1::POS[];
+
+constexpr int DVB_S2X_TABLE_B2::DEG[];
+constexpr int DVB_S2X_TABLE_B2::LEN[];
+constexpr int DVB_S2X_TABLE_B2::POS[];
+
+constexpr int DVB_S2X_TABLE_B3::DEG[];
+constexpr int DVB_S2X_TABLE_B3::LEN[];
+constexpr int DVB_S2X_TABLE_B3::POS[];
+
+constexpr int DVB_S2X_TABLE_B4::DEG[];
+constexpr int DVB_S2X_TABLE_B4::LEN[];
+constexpr int DVB_S2X_TABLE_B4::POS[];
+
+constexpr int DVB_S2X_TABLE_B5::DEG[];
+constexpr int DVB_S2X_TABLE_B5::LEN[];
+constexpr int DVB_S2X_TABLE_B5::POS[];
+
+constexpr int DVB_S2X_TABLE_B6::DEG[];
+constexpr int DVB_S2X_TABLE_B6::LEN[];
+constexpr int DVB_S2X_TABLE_B6::POS[];
+
+constexpr int DVB_S2X_TABLE_B7::DEG[];
+constexpr int DVB_S2X_TABLE_B7::LEN[];
+constexpr int DVB_S2X_TABLE_B7::POS[];
+
+constexpr int DVB_S2X_TABLE_B8::DEG[];
+constexpr int DVB_S2X_TABLE_B8::LEN[];
+constexpr int DVB_S2X_TABLE_B8::POS[];
+
+constexpr int DVB_S2X_TABLE_B9::DEG[];
+constexpr int DVB_S2X_TABLE_B9::LEN[];
+constexpr int DVB_S2X_TABLE_B9::POS[];
+
+constexpr int DVB_S2X_TABLE_B10::DEG[];
+constexpr int DVB_S2X_TABLE_B10::LEN[];
+constexpr int DVB_S2X_TABLE_B10::POS[];
+
+constexpr int DVB_S2X_TABLE_B11::DEG[];
+constexpr int DVB_S2X_TABLE_B11::LEN[];
+constexpr int DVB_S2X_TABLE_B11::POS[];
+
+constexpr int DVB_S2X_TABLE_B12::DEG[];
+constexpr int DVB_S2X_TABLE_B12::LEN[];
+constexpr int DVB_S2X_TABLE_B12::POS[];
+
+constexpr int DVB_S2X_TABLE_B13::DEG[];
+constexpr int DVB_S2X_TABLE_B13::LEN[];
+constexpr int DVB_S2X_TABLE_B13::POS[];
+
+constexpr int DVB_S2X_TABLE_B14::DEG[];
+constexpr int DVB_S2X_TABLE_B14::LEN[];
+constexpr int DVB_S2X_TABLE_B14::POS[];
+
+constexpr int DVB_S2X_TABLE_B15::DEG[];
+constexpr int DVB_S2X_TABLE_B15::LEN[];
+constexpr int DVB_S2X_TABLE_B15::POS[];
+
+constexpr int DVB_S2X_TABLE_B16::DEG[];
+constexpr int DVB_S2X_TABLE_B16::LEN[];
+constexpr int DVB_S2X_TABLE_B16::POS[];
+
+constexpr int DVB_S2X_TABLE_B17::DEG[];
+constexpr int DVB_S2X_TABLE_B17::LEN[];
+constexpr int DVB_S2X_TABLE_B17::POS[];
+
+constexpr int DVB_S2X_TABLE_B18::DEG[];
+constexpr int DVB_S2X_TABLE_B18::LEN[];
+constexpr int DVB_S2X_TABLE_B18::POS[];
+
+constexpr int DVB_S2X_TABLE_B19::DEG[];
+constexpr int DVB_S2X_TABLE_B19::LEN[];
+constexpr int DVB_S2X_TABLE_B19::POS[];
+
+constexpr int DVB_S2X_TABLE_B20::DEG[];
+constexpr int DVB_S2X_TABLE_B20::LEN[];
+constexpr int DVB_S2X_TABLE_B20::POS[];
+
+constexpr int DVB_S2X_TABLE_B21::DEG[];
+constexpr int DVB_S2X_TABLE_B21::LEN[];
+constexpr int DVB_S2X_TABLE_B21::POS[];
+
+constexpr int DVB_S2X_TABLE_B22::DEG[];
+constexpr int DVB_S2X_TABLE_B22::LEN[];
+constexpr int DVB_S2X_TABLE_B22::POS[];
+
+constexpr int DVB_S2X_TABLE_B23::DEG[];
+constexpr int DVB_S2X_TABLE_B23::LEN[];
+constexpr int DVB_S2X_TABLE_B23::POS[];
+
+constexpr int DVB_S2X_TABLE_B24::DEG[];
+constexpr int DVB_S2X_TABLE_B24::LEN[];
+constexpr int DVB_S2X_TABLE_B24::POS[];
+
 constexpr int DVB_S2_TABLE_C1::DEG[];
 constexpr int DVB_S2_TABLE_C1::LEN[];
 constexpr int DVB_S2_TABLE_C1::POS[];
@@ -112,6 +208,46 @@ constexpr int DVB_S2_TABLE_C9::POS[];
 constexpr int DVB_S2_TABLE_C10::DEG[];
 constexpr int DVB_S2_TABLE_C10::LEN[];
 constexpr int DVB_S2_TABLE_C10::POS[];
+
+constexpr int DVB_S2X_TABLE_C1::DEG[];
+constexpr int DVB_S2X_TABLE_C1::LEN[];
+constexpr int DVB_S2X_TABLE_C1::POS[];
+
+constexpr int DVB_S2X_TABLE_C2::DEG[];
+constexpr int DVB_S2X_TABLE_C2::LEN[];
+constexpr int DVB_S2X_TABLE_C2::POS[];
+
+constexpr int DVB_S2X_TABLE_C3::DEG[];
+constexpr int DVB_S2X_TABLE_C3::LEN[];
+constexpr int DVB_S2X_TABLE_C3::POS[];
+
+constexpr int DVB_S2X_TABLE_C4::DEG[];
+constexpr int DVB_S2X_TABLE_C4::LEN[];
+constexpr int DVB_S2X_TABLE_C4::POS[];
+
+constexpr int DVB_S2X_TABLE_C5::DEG[];
+constexpr int DVB_S2X_TABLE_C5::LEN[];
+constexpr int DVB_S2X_TABLE_C5::POS[];
+
+constexpr int DVB_S2X_TABLE_C6::DEG[];
+constexpr int DVB_S2X_TABLE_C6::LEN[];
+constexpr int DVB_S2X_TABLE_C6::POS[];
+
+constexpr int DVB_S2X_TABLE_C7::DEG[];
+constexpr int DVB_S2X_TABLE_C7::LEN[];
+constexpr int DVB_S2X_TABLE_C7::POS[];
+
+constexpr int DVB_S2X_TABLE_C8::DEG[];
+constexpr int DVB_S2X_TABLE_C8::LEN[];
+constexpr int DVB_S2X_TABLE_C8::POS[];
+
+constexpr int DVB_S2X_TABLE_C9::DEG[];
+constexpr int DVB_S2X_TABLE_C9::LEN[];
+constexpr int DVB_S2X_TABLE_C9::POS[];
+
+constexpr int DVB_S2X_TABLE_C10::DEG[];
+constexpr int DVB_S2X_TABLE_C10::LEN[];
+constexpr int DVB_S2X_TABLE_C10::POS[];
 
 namespace gr {
   namespace dvbldpc {
@@ -178,6 +314,102 @@ namespace gr {
             nbch = 58320;
             ldpc = new LDPC<DVB_S2_TABLE_B11, float>();
             break;
+          case C2_9_VLSNR:
+            nbch = 14400;
+            ldpc = new LDPC<DVB_S2X_TABLE_B1, float>();
+            break;
+          case C13_45:
+            nbch = 18720;
+            ldpc = new LDPC<DVB_S2X_TABLE_B2, float>();
+            break;
+          case C9_20:
+            nbch = 29160;
+            ldpc = new LDPC<DVB_S2X_TABLE_B3, float>();
+            break;
+          case C90_180:
+            nbch = 32400;
+            ldpc = new LDPC<DVB_S2X_TABLE_B11, float>();
+            break;
+          case C96_180:
+            nbch = 34560;
+            ldpc = new LDPC<DVB_S2X_TABLE_B12, float>();
+            break;
+          case C11_20:
+            nbch = 35640;
+            ldpc = new LDPC<DVB_S2X_TABLE_B4, float>();
+            break;
+          case C100_180:
+            nbch = 36000;
+            ldpc = new LDPC<DVB_S2X_TABLE_B13, float>();
+            break;
+          case C104_180:
+            nbch = 37440;
+            ldpc = new LDPC<DVB_S2X_TABLE_B14, float>();
+            break;
+          case C26_45:
+            nbch = 37440;
+            ldpc = new LDPC<DVB_S2X_TABLE_B5, float>();
+            break;
+          case C18_30:
+            nbch = 38880;
+            ldpc = new LDPC<DVB_S2X_TABLE_B22, float>();
+            break;
+          case C28_45:
+            nbch = 40320;
+            ldpc = new LDPC<DVB_S2X_TABLE_B6, float>();
+            break;
+          case C23_36:
+            nbch = 41400;
+            ldpc = new LDPC<DVB_S2X_TABLE_B7, float>();
+            break;
+          case C116_180:
+            nbch = 41760;
+            ldpc = new LDPC<DVB_S2X_TABLE_B15, float>();
+            break;
+          case C20_30:
+            nbch = 43200;
+            ldpc = new LDPC<DVB_S2X_TABLE_B23, float>();
+            break;
+          case C124_180:
+            nbch = 44640;
+            ldpc = new LDPC<DVB_S2X_TABLE_B16, float>();
+            break;
+          case C25_36:
+            nbch = 45000;
+            ldpc = new LDPC<DVB_S2X_TABLE_B8, float>();
+            break;
+          case C128_180:
+            nbch = 46080;
+            ldpc = new LDPC<DVB_S2X_TABLE_B17, float>();
+            break;
+          case C13_18:
+            nbch = 46800;
+            ldpc = new LDPC<DVB_S2X_TABLE_B9, float>();
+            break;
+          case C132_180:
+            nbch = 47520;
+            ldpc = new LDPC<DVB_S2X_TABLE_B18, float>();
+            break;
+          case C22_30:
+            nbch = 47520;
+            ldpc = new LDPC<DVB_S2X_TABLE_B24, float>();
+            break;
+          case C135_180:
+            nbch = 48600;
+            ldpc = new LDPC<DVB_S2X_TABLE_B19, float>();
+            break;
+          case C140_180:
+            nbch = 50400;
+            ldpc = new LDPC<DVB_S2X_TABLE_B20, float>();
+            break;
+          case C7_9:
+            nbch = 50400;
+            ldpc = new LDPC<DVB_S2X_TABLE_B10, float>();
+            break;
+          case C154_180:
+            nbch = 55440;
+            ldpc = new LDPC<DVB_S2X_TABLE_B21, float>();
+            break;
           default:
             break;
         }
@@ -225,7 +457,76 @@ namespace gr {
             nbch = 14400;
             ldpc = new LDPC<DVB_S2_TABLE_C10, float>();
             break;
+          case C11_45:
+            nbch = 3960;
+            ldpc = new LDPC<DVB_S2X_TABLE_C1, float>();
+            break;
+          case C4_15:
+            nbch = 4320;
+            ldpc = new LDPC<DVB_S2X_TABLE_C2, float>();
+            break;
+          case C14_45:
+            nbch = 5040;
+            ldpc = new LDPC<DVB_S2X_TABLE_C3, float>();
+            break;
+          case C7_15:
+            nbch = 7560;
+            ldpc = new LDPC<DVB_S2X_TABLE_C4, float>();
+            break;
+          case C8_15:
+            nbch = 8640;
+            ldpc = new LDPC<DVB_S2X_TABLE_C5, float>();
+            break;
+          case C26_45:
+            nbch = 9360;
+            ldpc = new LDPC<DVB_S2X_TABLE_C6, float>();
+            break;
+          case C32_45:
+            nbch = 11520;
+            ldpc = new LDPC<DVB_S2X_TABLE_C7, float>();
+            break;
+          case C1_5_VLSNR_SF2:
+            nbch = 2680;
+            ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
+            break;
+          case C11_45_VLSNR_SF2:
+            nbch = 3960;
+            ldpc = new LDPC<DVB_S2X_TABLE_C1, float>();
+            break;
+          case C1_5_VLSNR:
+            nbch = 3240;
+            ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
+            break;
+          case C4_15_VLSNR:
+            nbch = 4320;
+            ldpc = new LDPC<DVB_S2X_TABLE_C2, float>();
+            break;
+          case C1_3_VLSNR:
+            nbch = 5400;
+            ldpc = new LDPC<DVB_S2_TABLE_C2, float>();
+            break;
           default:
+            nbch = 0;
+            break;
+        }
+      }
+      else {
+        frame_size = FRAME_SIZE_MEDIUM;
+        switch (rate) {
+          case C1_5_MEDIUM:
+            nbch = 5840;
+            ldpc = new LDPC<DVB_S2X_TABLE_C8, float>();
+            break;
+          case C11_45_MEDIUM:
+            nbch = 7920;
+            ldpc = new LDPC<DVB_S2X_TABLE_C9, float>();
+            break;
+          case C1_3_MEDIUM:
+            nbch = 10800;
+            ldpc = new LDPC<DVB_S2X_TABLE_C10, float>();
+            break;
+          default:
+            nbch = 0;
             break;
         }
       }

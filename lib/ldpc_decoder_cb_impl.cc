@@ -563,6 +563,7 @@ namespace gr {
      */
     ldpc_decoder_cb_impl::~ldpc_decoder_cb_impl()
     {
+      delete mod;
       delete ldpc;
     }
 

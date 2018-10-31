@@ -536,6 +536,11 @@ $outputmode.val)</make>
       <key>MOD_QPSK</key>
       <opt>val:dvbldpc.MOD_QPSK</opt>
     </option>
+    <option>
+      <name>8PSK</name>
+      <key>MOD_8PSK</key>
+      <opt>val:dvbldpc.MOD_8PSK</opt>
+    </option>
   </param>
   <param>
     <name>Output mode</name>

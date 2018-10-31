@@ -552,6 +552,9 @@ namespace gr {
         case MOD_QPSK:
           mod = new PhaseShiftKeying<4, gr_complex>();
           break;
+        case MOD_8PSK:
+          mod = new PhaseShiftKeying<8, gr_complex>();
+          break;
         case MOD_16QAM:
           mod = new QuadratureAmplitudeModulation<16, gr_complex>();
           break;

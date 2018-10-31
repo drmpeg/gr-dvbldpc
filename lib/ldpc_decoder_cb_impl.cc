@@ -249,6 +249,14 @@ constexpr int DVB_S2X_TABLE_C10::DEG[];
 constexpr int DVB_S2X_TABLE_C10::LEN[];
 constexpr int DVB_S2X_TABLE_C10::POS[];
 
+constexpr int DVB_T2_TABLE_A3::DEG[];
+constexpr int DVB_T2_TABLE_A3::LEN[];
+constexpr int DVB_T2_TABLE_A3::POS[];
+
+constexpr int DVB_T2_TABLE_B3::DEG[];
+constexpr int DVB_T2_TABLE_B3::LEN[];
+constexpr int DVB_T2_TABLE_B3::POS[];
+
 namespace gr {
   namespace dvbldpc {
 
@@ -292,7 +300,12 @@ namespace gr {
             break;
           case C2_3:
             nbch = 43200;
-            ldpc = new LDPC<DVB_S2_TABLE_B6, float>();
+            if (standard == STANDARD_DVBS2) {
+              ldpc = new LDPC<DVB_S2_TABLE_B6, float>();
+            }
+            else {
+              ldpc = new LDPC<DVB_T2_TABLE_A3, float>();
+            }
             break;
           case C3_4:
             nbch = 48600;
@@ -435,7 +448,12 @@ namespace gr {
             break;
           case C3_5:
             nbch = 9720;
-            ldpc = new LDPC<DVB_S2_TABLE_C5, float>();
+            if (standard == STANDARD_DVBS2) {
+              ldpc = new LDPC<DVB_S2_TABLE_C5, float>();
+            }
+            else {
+              ldpc = new LDPC<DVB_T2_TABLE_B3, float>();
+            }
             break;
           case C2_3:
             nbch = 10800;

@@ -53,16 +53,16 @@ struct QuadratureAmplitudeModulation<16, TYPE> : public Modulation<TYPE>
   {
     b[0*stride] = c.real() < amp(0) ? value_type(-1) : value_type(1);
     b[1*stride] = c.imag() < amp(0) ? value_type(-1) : value_type(1);
-    b[2*stride] = abs(c.real()) < amp(2) ? value_type(-1) : value_type(1);
-    b[3*stride] = abs(c.imag()) < amp(2) ? value_type(-1) : value_type(1);
+    b[2*stride] = std::abs(c.real()) < amp(2) ? value_type(-1) : value_type(1);
+    b[3*stride] = std::abs(c.imag()) < amp(2) ? value_type(-1) : value_type(1);
   }
 
   void soft(value_type *b, complex_type c, value_type precision, int stride = 1)
   {
     b[0*stride] = DIST * precision * c.real();
     b[1*stride] = DIST * precision * c.imag();
-    b[2*stride] = DIST * precision * (abs(c.real())-amp(2));
-    b[3*stride] = DIST * precision * (abs(c.imag())-amp(2));
+    b[2*stride] = DIST * precision * (std::abs(c.real())-amp(2));
+    b[3*stride] = DIST * precision * (std::abs(c.imag())-amp(2));
   }
 
   complex_type map(value_type *b, int stride = 1)
@@ -101,20 +101,20 @@ struct QuadratureAmplitudeModulation<64, TYPE> : public Modulation<TYPE>
   {
     b[0*stride] = c.real() < amp(0) ? value_type(-1) : value_type(1);
     b[1*stride] = c.imag() < amp(0) ? value_type(-1) : value_type(1);
-    b[2*stride] = abs(c.real()) < amp(4) ? value_type(-1) : value_type(1);
-    b[3*stride] = abs(c.imag()) < amp(4) ? value_type(-1) : value_type(1);
-    b[4*stride] = abs(abs(c.real())-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
-    b[5*stride] = abs(abs(c.imag())-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
+    b[2*stride] = std::abs(c.real()) < amp(4) ? value_type(-1) : value_type(1);
+    b[3*stride] = std::abs(c.imag()) < amp(4) ? value_type(-1) : value_type(1);
+    b[4*stride] = std::abs(std::abs(c.real())-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
+    b[5*stride] = std::abs(std::abs(c.imag())-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
   }
 
   void soft(value_type *b, complex_type c, value_type precision, int stride = 1)
   {
     b[0*stride] = DIST * precision * c.real();
     b[1*stride] = DIST * precision * c.imag();
-    b[2*stride] = DIST * precision * (abs(c.real())-amp(4));
-    b[3*stride] = DIST * precision * (abs(c.imag())-amp(4));
-    b[4*stride] = DIST * precision * (abs(abs(c.real())-amp(4))-amp(2));
-    b[5*stride] = DIST * precision * (abs(abs(c.imag())-amp(4))-amp(2));
+    b[2*stride] = DIST * precision * (std::abs(c.real())-amp(4));
+    b[3*stride] = DIST * precision * (std::abs(c.imag())-amp(4));
+    b[4*stride] = DIST * precision * (std::abs(std::abs(c.real())-amp(4))-amp(2));
+    b[5*stride] = DIST * precision * (std::abs(std::abs(c.imag())-amp(4))-amp(2));
   }
 
   complex_type map(value_type *b, int stride = 1)
@@ -153,24 +153,24 @@ struct QuadratureAmplitudeModulation<256, TYPE> : public Modulation<TYPE>
   {
     b[0*stride] = c.real() < amp(0) ? value_type(-1) : value_type(1);
     b[1*stride] = c.imag() < amp(0) ? value_type(-1) : value_type(1);
-    b[2*stride] = abs(c.real()) < amp(8) ? value_type(-1) : value_type(1);
-    b[3*stride] = abs(c.imag()) < amp(8) ? value_type(-1) : value_type(1);
-    b[4*stride] = abs(abs(c.real())-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
-    b[5*stride] = abs(abs(c.imag())-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
-    b[6*stride] = abs(abs(abs(c.real())-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
-    b[7*stride] = abs(abs(abs(c.imag())-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
+    b[2*stride] = std::abs(c.real()) < amp(8) ? value_type(-1) : value_type(1);
+    b[3*stride] = std::abs(c.imag()) < amp(8) ? value_type(-1) : value_type(1);
+    b[4*stride] = std::abs(std::abs(c.real())-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
+    b[5*stride] = std::abs(std::abs(c.imag())-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
+    b[6*stride] = std::abs(std::abs(std::abs(c.real())-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
+    b[7*stride] = std::abs(std::abs(std::abs(c.imag())-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
   }
 
   void soft(value_type *b, complex_type c, value_type precision, int stride = 1)
   {
     b[0*stride] = DIST * precision * c.real();
     b[1*stride] = DIST * precision * c.imag();
-    b[2*stride] = DIST * precision * (abs(c.real())-amp(8));
-    b[3*stride] = DIST * precision * (abs(c.imag())-amp(8));
-    b[4*stride] = DIST * precision * (abs(abs(c.real())-amp(8))-amp(4));
-    b[5*stride] = DIST * precision * (abs(abs(c.imag())-amp(8))-amp(4));
-    b[6*stride] = DIST * precision * (abs(abs(abs(c.real())-amp(8))-amp(4))-amp(2));
-    b[7*stride] = DIST * precision * (abs(abs(abs(c.imag())-amp(8))-amp(4))-amp(2));
+    b[2*stride] = DIST * precision * (std::abs(c.real())-amp(8));
+    b[3*stride] = DIST * precision * (std::abs(c.imag())-amp(8));
+    b[4*stride] = DIST * precision * (std::abs(std::abs(c.real())-amp(8))-amp(4));
+    b[5*stride] = DIST * precision * (std::abs(std::abs(c.imag())-amp(8))-amp(4));
+    b[6*stride] = DIST * precision * (std::abs(std::abs(std::abs(c.real())-amp(8))-amp(4))-amp(2));
+    b[7*stride] = DIST * precision * (std::abs(std::abs(std::abs(c.imag())-amp(8))-amp(4))-amp(2));
   }
 
   complex_type map(value_type *b, int stride = 1)
@@ -209,28 +209,28 @@ struct QuadratureAmplitudeModulation<1024, TYPE> : public Modulation<TYPE>
   {
     b[0*stride] = c.real() < amp(0) ? value_type(-1) : value_type(1);
     b[1*stride] = c.imag() < amp(0) ? value_type(-1) : value_type(1);
-    b[2*stride] = abs(c.real()) < amp(16) ? value_type(-1) : value_type(1);
-    b[3*stride] = abs(c.imag()) < amp(16) ? value_type(-1) : value_type(1);
-    b[4*stride] = abs(abs(c.real())-amp(16)) < amp(8) ? value_type(-1) : value_type(1);
-    b[5*stride] = abs(abs(c.imag())-amp(16)) < amp(8) ? value_type(-1) : value_type(1);
-    b[6*stride] = abs(abs(abs(c.real())-amp(16))-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
-    b[7*stride] = abs(abs(abs(c.imag())-amp(16))-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
-    b[8*stride] = abs(abs(abs(abs(c.real())-amp(16))-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
-    b[9*stride] = abs(abs(abs(abs(c.imag())-amp(16))-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
+    b[2*stride] = std::abs(c.real()) < amp(16) ? value_type(-1) : value_type(1);
+    b[3*stride] = std::abs(c.imag()) < amp(16) ? value_type(-1) : value_type(1);
+    b[4*stride] = std::abs(std::abs(c.real())-amp(16)) < amp(8) ? value_type(-1) : value_type(1);
+    b[5*stride] = std::abs(std::abs(c.imag())-amp(16)) < amp(8) ? value_type(-1) : value_type(1);
+    b[6*stride] = std::abs(std::abs(std::abs(c.real())-amp(16))-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
+    b[7*stride] = std::abs(std::abs(std::abs(c.imag())-amp(16))-amp(8)) < amp(4) ? value_type(-1) : value_type(1);
+    b[8*stride] = std::abs(std::abs(std::abs(std::abs(c.real())-amp(16))-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
+    b[9*stride] = std::abs(std::abs(std::abs(std::abs(c.imag())-amp(16))-amp(8))-amp(4)) < amp(2) ? value_type(-1) : value_type(1);
   }
 
   void soft(value_type *b, complex_type c, value_type precision, int stride = 1)
   {
     b[0*stride] = DIST * precision * c.real();
     b[1*stride] = DIST * precision * c.imag();
-    b[2*stride] = DIST * precision * (abs(c.real())-amp(16));
-    b[3*stride] = DIST * precision * (abs(c.imag())-amp(16));
-    b[4*stride] = DIST * precision * (abs(abs(c.real())-amp(16))-amp(8));
-    b[5*stride] = DIST * precision * (abs(abs(c.imag())-amp(16))-amp(8));
-    b[6*stride] = DIST * precision * (abs(abs(abs(c.real())-amp(16))-amp(8))-amp(4));
-    b[7*stride] = DIST * precision * (abs(abs(abs(c.imag())-amp(16))-amp(8))-amp(4));
-    b[8*stride] = DIST * precision * (abs(abs(abs(abs(c.real())-amp(16))-amp(8))-amp(4))-amp(2));
-    b[9*stride] = DIST * precision * (abs(abs(abs(abs(c.imag())-amp(16))-amp(8))-amp(4))-amp(2));
+    b[2*stride] = DIST * precision * (std::abs(c.real())-amp(16));
+    b[3*stride] = DIST * precision * (std::abs(c.imag())-amp(16));
+    b[4*stride] = DIST * precision * (std::abs(std::abs(c.real())-amp(16))-amp(8));
+    b[5*stride] = DIST * precision * (std::abs(std::abs(c.imag())-amp(16))-amp(8));
+    b[6*stride] = DIST * precision * (std::abs(std::abs(std::abs(c.real())-amp(16))-amp(8))-amp(4));
+    b[7*stride] = DIST * precision * (std::abs(std::abs(std::abs(c.imag())-amp(16))-amp(8))-amp(4));
+    b[8*stride] = DIST * precision * (std::abs(std::abs(std::abs(std::abs(c.real())-amp(16))-amp(8))-amp(4))-amp(2));
+    b[9*stride] = DIST * precision * (std::abs(std::abs(std::abs(std::abs(c.imag())-amp(16))-amp(8))-amp(4))-amp(2));
   }
 
   complex_type map(value_type *b, int stride = 1)

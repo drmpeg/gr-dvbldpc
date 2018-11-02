@@ -615,6 +615,7 @@ namespace gr {
       int trials = 50;
       int consumed = 0;
       int output_size = output_mode ? nbch : ldpc->code_len();
+      gr_complex rot = (gr_complex)(std::exp(gr_complexd(0.0, -M_PI / 8)));
 
       for (int i = 0; i < noutput_items; i += output_size) {
         sp = 0;
@@ -622,7 +623,12 @@ namespace gr {
         for (int j = 0; j < SYMBOLS; j++) {
           mod->hard(tmp, in[j]);
           s = mod->map(tmp);
-          e = in[j] - s;
+          if (mod->bits() == 3) {
+            e = (in[j] * rot) - s;
+          }
+          else {
+            e = in[j] - s;
+          }
           sp += std::norm(s);
           np += std::norm(e);
         }

@@ -22,6 +22,7 @@
 #define PSK_HH
 
 #include "modulation.hh"
+#include <gnuradio/math.h>
 
 template <int NUM, typename TYPE>
 struct PhaseShiftKeying;
@@ -109,6 +110,8 @@ struct PhaseShiftKeying<8, TYPE> : public Modulation<TYPE>
 
   static constexpr value_type DIST = 2 * sin_pi_8;
 
+  gr_complex rot = (gr_complex)(std::exp(gr_complexd(0.0, -M_PI / 8)));
+
   int bits()
   {
     return BITS;
@@ -116,25 +119,27 @@ struct PhaseShiftKeying<8, TYPE> : public Modulation<TYPE>
 
   void hard(value_type *b, complex_type c, int stride = 1)
   {
-    b[0*stride] = c.real() < value_type(0) ? value_type(-1) : value_type(1);
-    b[1*stride] = c.imag() < value_type(0) ? value_type(-1) : value_type(1);
-    b[2*stride] = abs(c.real()) < abs(c.imag()) ? value_type(-1) : value_type(1);
+    c *= rot;
+    b[1*stride] = c.real() < value_type(0) ? value_type(-1) : value_type(1);
+    b[2*stride] = c.imag() < value_type(0) ? value_type(-1) : value_type(1);
+    b[0*stride] = std::abs(c.real()) < std::abs(c.imag()) ? value_type(-1) : value_type(1);
   }
 
   void soft(value_type *b, complex_type c, value_type precision, int stride = 1)
   {
-    b[0*stride] = DIST * precision * c.real();
-    b[1*stride] = DIST * precision * c.imag();
-    b[2*stride] = DIST * precision * rcp_sqrt_2 * (abs(c.real()) - abs(c.imag()));
+    c *= rot;
+    b[1*stride] = DIST * precision * c.real();
+    b[2*stride] = DIST * precision * c.imag();
+    b[0*stride] = DIST * precision * rcp_sqrt_2 * (std::abs(c.real()) - std::abs(c.imag()));
   }
 
   complex_type map(value_type *b, int stride = 1)
   {
     value_type real = cos_pi_8;
     value_type imag = sin_pi_8;
-    if (b[2*stride] < value_type(0))
+    if (b[0*stride] < value_type(0))
       std::swap(real, imag);
-    return complex_type(real * b[0*stride], imag * b[1*stride]);
+    return complex_type(real * b[1*stride], imag * b[2*stride]);
   }
 };
 

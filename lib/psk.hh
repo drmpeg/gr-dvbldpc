@@ -110,6 +110,14 @@ struct PhaseShiftKeying<8, TYPE> : public Modulation<TYPE>
   static constexpr value_type DIST = 2 * sin_pi_8;
 
   gr_complex rot = (gr_complex)(std::exp(gr_complexd(0.0, -M_PI / 8)));
+  gr_complex m_8psk[8] = {gr_complex(rcp_sqrt_2, rcp_sqrt_2),
+                          gr_complex(1.0, 0.0),
+                          gr_complex(-1.0, 0.0),
+                          gr_complex(-rcp_sqrt_2, -rcp_sqrt_2),
+                          gr_complex(0.0, 1.0),
+                          gr_complex(rcp_sqrt_2, -rcp_sqrt_2),
+                          gr_complex(-rcp_sqrt_2, rcp_sqrt_2),
+                          gr_complex(0.0, -1.0)};
 
   int bits()
   {
@@ -134,11 +142,8 @@ struct PhaseShiftKeying<8, TYPE> : public Modulation<TYPE>
 
   complex_type map(value_type *b, int stride = 1)
   {
-    value_type real = cos_pi_8;
-    value_type imag = sin_pi_8;
-    if (b[0*stride] < value_type(0))
-      std::swap(real, imag);
-    return complex_type(real * b[1*stride], imag * b[2*stride]);
+    int index = ((((int)(b[0*stride]) + 1) << 1) ^ 0x4) | (((int)(b[1*stride]) + 1) ^ 0x2) | ((((int)(b[2*stride]) + 1) >> 1) ^ 0x1);
+    return complex_type(m_8psk[index]);
   }
 };
 

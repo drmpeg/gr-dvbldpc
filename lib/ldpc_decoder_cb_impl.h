@@ -41,8 +41,8 @@ namespace gr {
       unsigned int dvb_standard;
       unsigned int output_mode;
       unsigned int frame;
-      LDPCInterface<float> *ldpc;
-      Modulation<gr_complex> *mod;
+      LDPCInterface<int8_t> *ldpc;
+      Modulation<gr_complex, int8_t> *mod;
 
      public:
       ldpc_decoder_cb_impl(dvb_standard_t standard, dvb_framesize_t framesize, dvb_code_rate_t rate, dvb_constellation_t constellation, dvb_outputmode_t outputmode);

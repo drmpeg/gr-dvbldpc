@@ -29,6 +29,8 @@
 #include <iostream>
 #include <algorithm>
 
+#define FACTOR 2
+
 constexpr int DVB_S2_TABLE_B1::DEG[];
 constexpr int DVB_S2_TABLE_B1::LEN[];
 constexpr int DVB_S2_TABLE_B1::POS[];
@@ -280,148 +282,148 @@ namespace gr {
         switch (rate) {
           case C1_4:
             nbch = 16200;
-            ldpc = new LDPC<DVB_S2_TABLE_B1, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B1, int8_t, FACTOR>();
             break;
           case C1_3:
             nbch = 21600;
-            ldpc = new LDPC<DVB_S2_TABLE_B2, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B2, int8_t, FACTOR>();
             break;
           case C2_5:
             nbch = 25920;
-            ldpc = new LDPC<DVB_S2_TABLE_B3, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B3, int8_t, FACTOR>();
             break;
           case C1_2:
             nbch = 32400;
-            ldpc = new LDPC<DVB_S2_TABLE_B4, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B4, int8_t, FACTOR>();
             break;
           case C3_5:
             nbch = 38880;
-            ldpc = new LDPC<DVB_S2_TABLE_B5, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B5, int8_t, FACTOR>();
             break;
           case C2_3:
             nbch = 43200;
             if (standard == STANDARD_DVBS2) {
-              ldpc = new LDPC<DVB_S2_TABLE_B6, float>();
+              ldpc = new LDPC<DVB_S2_TABLE_B6, int8_t, FACTOR>();
             }
             else {
-              ldpc = new LDPC<DVB_T2_TABLE_A3, float>();
+              ldpc = new LDPC<DVB_T2_TABLE_A3, int8_t, FACTOR>();
             }
             break;
           case C3_4:
             nbch = 48600;
-            ldpc = new LDPC<DVB_S2_TABLE_B7, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B7, int8_t, FACTOR>();
             break;
           case C4_5:
             nbch = 51840;
-            ldpc = new LDPC<DVB_S2_TABLE_B8, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B8, int8_t, FACTOR>();
             break;
           case C5_6:
             nbch = 54000;
-            ldpc = new LDPC<DVB_S2_TABLE_B9, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B9, int8_t, FACTOR>();
             break;
           case C8_9:
             nbch = 57600;
-            ldpc = new LDPC<DVB_S2_TABLE_B10, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B10, int8_t, FACTOR>();
             break;
           case C9_10:
             nbch = 58320;
-            ldpc = new LDPC<DVB_S2_TABLE_B11, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_B11, int8_t, FACTOR>();
             break;
           case C2_9_VLSNR:
             nbch = 14400;
-            ldpc = new LDPC<DVB_S2X_TABLE_B1, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B1, int8_t, FACTOR>();
             break;
           case C13_45:
             nbch = 18720;
-            ldpc = new LDPC<DVB_S2X_TABLE_B2, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B2, int8_t, FACTOR>();
             break;
           case C9_20:
             nbch = 29160;
-            ldpc = new LDPC<DVB_S2X_TABLE_B3, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B3, int8_t, FACTOR>();
             break;
           case C90_180:
             nbch = 32400;
-            ldpc = new LDPC<DVB_S2X_TABLE_B11, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B11, int8_t, FACTOR>();
             break;
           case C96_180:
             nbch = 34560;
-            ldpc = new LDPC<DVB_S2X_TABLE_B12, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B12, int8_t, FACTOR>();
             break;
           case C11_20:
             nbch = 35640;
-            ldpc = new LDPC<DVB_S2X_TABLE_B4, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B4, int8_t, FACTOR>();
             break;
           case C100_180:
             nbch = 36000;
-            ldpc = new LDPC<DVB_S2X_TABLE_B13, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B13, int8_t, FACTOR>();
             break;
           case C104_180:
             nbch = 37440;
-            ldpc = new LDPC<DVB_S2X_TABLE_B14, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B14, int8_t, FACTOR>();
             break;
           case C26_45:
             nbch = 37440;
-            ldpc = new LDPC<DVB_S2X_TABLE_B5, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B5, int8_t, FACTOR>();
             break;
           case C18_30:
             nbch = 38880;
-            ldpc = new LDPC<DVB_S2X_TABLE_B22, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B22, int8_t, FACTOR>();
             break;
           case C28_45:
             nbch = 40320;
-            ldpc = new LDPC<DVB_S2X_TABLE_B6, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B6, int8_t, FACTOR>();
             break;
           case C23_36:
             nbch = 41400;
-            ldpc = new LDPC<DVB_S2X_TABLE_B7, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B7, int8_t, FACTOR>();
             break;
           case C116_180:
             nbch = 41760;
-            ldpc = new LDPC<DVB_S2X_TABLE_B15, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B15, int8_t, FACTOR>();
             break;
           case C20_30:
             nbch = 43200;
-            ldpc = new LDPC<DVB_S2X_TABLE_B23, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B23, int8_t, FACTOR>();
             break;
           case C124_180:
             nbch = 44640;
-            ldpc = new LDPC<DVB_S2X_TABLE_B16, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B16, int8_t, FACTOR>();
             break;
           case C25_36:
             nbch = 45000;
-            ldpc = new LDPC<DVB_S2X_TABLE_B8, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B8, int8_t, FACTOR>();
             break;
           case C128_180:
             nbch = 46080;
-            ldpc = new LDPC<DVB_S2X_TABLE_B17, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B17, int8_t, FACTOR>();
             break;
           case C13_18:
             nbch = 46800;
-            ldpc = new LDPC<DVB_S2X_TABLE_B9, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B9, int8_t, FACTOR>();
             break;
           case C132_180:
             nbch = 47520;
-            ldpc = new LDPC<DVB_S2X_TABLE_B18, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B18, int8_t, FACTOR>();
             break;
           case C22_30:
             nbch = 47520;
-            ldpc = new LDPC<DVB_S2X_TABLE_B24, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B24, int8_t, FACTOR>();
             break;
           case C135_180:
             nbch = 48600;
-            ldpc = new LDPC<DVB_S2X_TABLE_B19, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B19, int8_t, FACTOR>();
             break;
           case C140_180:
             nbch = 50400;
-            ldpc = new LDPC<DVB_S2X_TABLE_B20, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B20, int8_t, FACTOR>();
             break;
           case C7_9:
             nbch = 50400;
-            ldpc = new LDPC<DVB_S2X_TABLE_B10, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B10, int8_t, FACTOR>();
             break;
           case C154_180:
             nbch = 55440;
-            ldpc = new LDPC<DVB_S2X_TABLE_B21, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_B21, int8_t, FACTOR>();
             break;
           default:
             break;
@@ -432,96 +434,96 @@ namespace gr {
         switch (rate) {
           case C1_4:
             nbch = 3240;
-            ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C1, int8_t, FACTOR>();
             break;
           case C1_3:
             nbch = 5400;
-            ldpc = new LDPC<DVB_S2_TABLE_C2, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C2, int8_t, FACTOR>();
             break;
           case C2_5:
             nbch = 6480;
-            ldpc = new LDPC<DVB_S2_TABLE_C3, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C3, int8_t, FACTOR>();
             break;
           case C1_2:
             nbch = 7200;
-            ldpc = new LDPC<DVB_S2_TABLE_C4, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C4, int8_t, FACTOR>();
             break;
           case C3_5:
             nbch = 9720;
             if (standard == STANDARD_DVBS2) {
-              ldpc = new LDPC<DVB_S2_TABLE_C5, float>();
+              ldpc = new LDPC<DVB_S2_TABLE_C5, int8_t, FACTOR>();
             }
             else {
-              ldpc = new LDPC<DVB_T2_TABLE_B3, float>();
+              ldpc = new LDPC<DVB_T2_TABLE_B3, int8_t, FACTOR>();
             }
             break;
           case C2_3:
             nbch = 10800;
-            ldpc = new LDPC<DVB_S2_TABLE_C6, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C6, int8_t, FACTOR>();
             break;
           case C3_4:
             nbch = 11880;
-            ldpc = new LDPC<DVB_S2_TABLE_C7, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C7, int8_t, FACTOR>();
             break;
           case C4_5:
             nbch = 12600;
-            ldpc = new LDPC<DVB_S2_TABLE_C8, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C8, int8_t, FACTOR>();
             break;
           case C5_6:
             nbch = 13320;
-            ldpc = new LDPC<DVB_S2_TABLE_C9, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C9, int8_t, FACTOR>();
             break;
           case C8_9:
             nbch = 14400;
-            ldpc = new LDPC<DVB_S2_TABLE_C10, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C10, int8_t, FACTOR>();
             break;
           case C11_45:
             nbch = 3960;
-            ldpc = new LDPC<DVB_S2X_TABLE_C1, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C1, int8_t, FACTOR>();
             break;
           case C4_15:
             nbch = 4320;
-            ldpc = new LDPC<DVB_S2X_TABLE_C2, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C2, int8_t, FACTOR>();
             break;
           case C14_45:
             nbch = 5040;
-            ldpc = new LDPC<DVB_S2X_TABLE_C3, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C3, int8_t, FACTOR>();
             break;
           case C7_15:
             nbch = 7560;
-            ldpc = new LDPC<DVB_S2X_TABLE_C4, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C4, int8_t, FACTOR>();
             break;
           case C8_15:
             nbch = 8640;
-            ldpc = new LDPC<DVB_S2X_TABLE_C5, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C5, int8_t, FACTOR>();
             break;
           case C26_45:
             nbch = 9360;
-            ldpc = new LDPC<DVB_S2X_TABLE_C6, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C6, int8_t, FACTOR>();
             break;
           case C32_45:
             nbch = 11520;
-            ldpc = new LDPC<DVB_S2X_TABLE_C7, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C7, int8_t, FACTOR>();
             break;
           case C1_5_VLSNR_SF2:
             nbch = 2680;
-            ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C1, int8_t, FACTOR>();
             break;
           case C11_45_VLSNR_SF2:
             nbch = 3960;
-            ldpc = new LDPC<DVB_S2X_TABLE_C1, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C1, int8_t, FACTOR>();
             break;
           case C1_5_VLSNR:
             nbch = 3240;
-            ldpc = new LDPC<DVB_S2_TABLE_C1, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C1, int8_t, FACTOR>();
             break;
           case C4_15_VLSNR:
             nbch = 4320;
-            ldpc = new LDPC<DVB_S2X_TABLE_C2, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C2, int8_t, FACTOR>();
             break;
           case C1_3_VLSNR:
             nbch = 5400;
-            ldpc = new LDPC<DVB_S2_TABLE_C2, float>();
+            ldpc = new LDPC<DVB_S2_TABLE_C2, int8_t, FACTOR>();
             break;
           default:
             nbch = 0;
@@ -533,15 +535,15 @@ namespace gr {
         switch (rate) {
           case C1_5_MEDIUM:
             nbch = 5840;
-            ldpc = new LDPC<DVB_S2X_TABLE_C8, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C8, int8_t, FACTOR>();
             break;
           case C11_45_MEDIUM:
             nbch = 7920;
-            ldpc = new LDPC<DVB_S2X_TABLE_C9, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C9, int8_t, FACTOR>();
             break;
           case C1_3_MEDIUM:
             nbch = 10800;
-            ldpc = new LDPC<DVB_S2X_TABLE_C10, float>();
+            ldpc = new LDPC<DVB_S2X_TABLE_C10, int8_t, FACTOR>();
             break;
           default:
             nbch = 0;
@@ -550,19 +552,19 @@ namespace gr {
       }
       switch (constellation) {
         case MOD_QPSK:
-          mod = new PhaseShiftKeying<4, gr_complex>();
+          mod = new PhaseShiftKeying<4, gr_complex, int8_t>();
           break;
         case MOD_8PSK:
-          mod = new PhaseShiftKeying<8, gr_complex>();
+          mod = new PhaseShiftKeying<8, gr_complex, int8_t>();
           break;
         case MOD_16QAM:
-          mod = new QuadratureAmplitudeModulation<16, gr_complex>();
+          mod = new QuadratureAmplitudeModulation<16, gr_complex, int8_t>();
           break;
         case MOD_64QAM:
-          mod = new QuadratureAmplitudeModulation<64, gr_complex>();
+          mod = new QuadratureAmplitudeModulation<64, gr_complex, int8_t>();
           break;
         case MOD_256QAM:
-          mod = new QuadratureAmplitudeModulation<256, gr_complex>();
+          mod = new QuadratureAmplitudeModulation<256, gr_complex, int8_t>();
           break;
         default:
           break;
@@ -607,8 +609,8 @@ namespace gr {
     {
       const gr_complex *in = (const gr_complex *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
-      float code[ldpc->code_len()];
-      float tmp[mod->bits()];
+      int8_t code[ldpc->code_len()];
+      int8_t tmp[mod->bits()];
       float sp, np, sigma, precision, snr;
       gr_complex s, e;
       const int SYMBOLS = ldpc->code_len() / mod->bits();
@@ -631,7 +633,7 @@ namespace gr {
         }
         snr = 10 * std::log10(sp / np);
         sigma = std::sqrt(np / (2 * sp));
-        precision = 1 / (sigma * sigma);
+        precision = FACTOR / (sigma * sigma);
         for (int j = 0; j < SYMBOLS; j++) {
           mod->soft(code + (j * mod->bits()), in[j], precision);
         }

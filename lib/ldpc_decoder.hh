@@ -23,40 +23,97 @@
 
 #include "exclusive_reduce.hh"
 
-template <typename TYPE>
-struct MinSumCAlgorithm
+template <typename TYPE, int FACTOR>
+struct SelfCorrectedMinSumAlgorithm
 {
-  static TYPE correction_factor(TYPE a, TYPE b)
-  {
-    if (1) {
-      TYPE c = 0.5;
-      TYPE apb = std::abs(a + b);
-      TYPE amb = std::abs(a - b);
-      if (apb < TYPE(2) && amb > TYPE(2) * apb)
-        return c;
-      if (amb < TYPE(2) && apb > TYPE(2) * amb)
-        return -c;
-      return 0;
-    }
-    return std::log(TYPE(1)+std::exp(-std::abs(a+b))) - std::log(TYPE(1)+std::exp(-std::abs(a-b)));
-  }
   static TYPE min(TYPE a, TYPE b)
   {
-    TYPE m = std::min(std::abs(a), std::abs(b));
-    TYPE x = (a < TYPE(0)) != (b < TYPE(0)) ? -m : m;
-    x += correction_factor(a, b);
-    return x;
+    return std::min(a, b);
   }
+
+  static TYPE mul(TYPE a, TYPE b)
+  {
+    return a * b;
+  }
+
   static void finalp(TYPE *links, int cnt)
   {
-    TYPE tmp[cnt];
-    CODE::exclusive_reduce(links, tmp, cnt, min);
+    TYPE blmags[cnt], mins[cnt];
     for (int i = 0; i < cnt; ++i)
-      links[i] = tmp[i];
+      blmags[i] = std::abs(links[i]);
+    CODE::exclusive_reduce(blmags, mins, cnt, min);
+
+    TYPE blsigns[cnt], signs[cnt];
+    for (int i = 0; i < cnt; ++i)
+      blsigns[i] = links[i] < TYPE(0) ? TYPE(-1) : TYPE(1);
+    CODE::exclusive_reduce(blsigns, signs, cnt, mul);
+
+    for (int i = 0; i < cnt; ++i)
+      links[i] = signs[i] * mins[i];
   }
+
   static TYPE add(TYPE a, TYPE b)
   {
     return a + b;
+  }
+
+  static TYPE update(TYPE a, TYPE b)
+  {
+    return (a == TYPE(0) || (a < TYPE(0)) == (b < TYPE(0))) ? b : TYPE(0);
+  }
+};
+
+template <int FACTOR>
+struct SelfCorrectedMinSumAlgorithm<int8_t, FACTOR>
+{
+  static int8_t add(int8_t a, int8_t b)
+  {
+    int x = int(a) + int(b);
+    x = std::min<int>(std::max<int>(x, -128), 127);
+    return x;
+  }
+
+  static uint8_t min(uint8_t a, uint8_t b)
+  {
+    return std::min(a, b);
+  }
+
+  static int8_t xor_(int8_t a, int8_t b)
+  {
+    return a ^ b;
+  }
+
+  static uint8_t abs(int8_t a)
+  {
+    return std::abs<int>(a);
+  }
+
+  static int8_t sign(int8_t a, int8_t b)
+  {
+    return b < 0 ? -a : b > 0 ? a : 0;
+  }
+
+  static void finalp(int8_t *links, int cnt)
+  {
+    uint8_t mags[cnt], mins[cnt];
+    for (int i = 0; i < cnt; ++i)
+      mags[i] = abs(links[i]);
+    CODE::exclusive_reduce(mags, mins, cnt, min);
+    for (int i = 0; i < cnt; ++i)
+      mins[i] = std::min<uint8_t>(mins[i], 127);
+
+    int8_t signs[cnt];
+    CODE::exclusive_reduce(links, signs, cnt, xor_);
+    for (int i = 0; i < cnt; ++i)
+      signs[i] |= 127;
+
+    for (int i = 0; i < cnt; ++i)
+      links[i] = sign(mins[i], signs[i]);
+  }
+
+  static int8_t update(int8_t a, int8_t b)
+  {
+    return (a == 0 || ((a ^ b) & 128) == 0) ? b : 0;
   }
 };
 
@@ -69,15 +126,18 @@ struct LDPCInterface
   virtual ~LDPCInterface() = default;
 };
 
-template <typename TABLE, typename TYPE>
+template <typename TABLE, typename TYPE, int FACTOR>
 class LDPC : public LDPCInterface<TYPE>
 {
+  typedef SelfCorrectedMinSumAlgorithm<TYPE, FACTOR> ALG;
+
   static const int M = TABLE::M;
   static const int N = TABLE::N;
   static const int K = TABLE::K;
   static const int R = N-K;
   static const int q = R/M;
   static const int CNL = TABLE::LINKS_MAX_CN;
+
   int acc_pos[TABLE::DEG_MAX];
   const int *row_ptr;
   int bit_deg;
@@ -87,9 +147,9 @@ class LDPC : public LDPCInterface<TYPE>
   TYPE bnl[TABLE::LINKS_TOTAL];
   TYPE bnv[N];
   TYPE cnl[R * CNL];
-  int cnv[R];
-  int cnc[R];
-  MinSumCAlgorithm<TYPE> alg;
+  int8_t cnv[R];
+  uint8_t cnc[R];
+  ALG alg;
 
   int signum(TYPE v)
   {
@@ -179,26 +239,34 @@ class LDPC : public LDPCInterface<TYPE>
     }
     for (int i = 0; i < R; ++i)
       alg.finalp(cnl+CNL*i, cnc[i]);
+    if (0) {
+      TYPE min = 0, max = 0;
+      for (int i = 0; i < R * CNL; ++i) {
+        min = std::min(min, cnl[i]);
+        max = std::max(max, cnl[i]);
+      }
+      std::cerr << "cnl: min = " << +min << " max = " << +max << std::endl;
+    }
   }
 
-  void bit_node_update()
+  void bit_node_update(TYPE *data, TYPE *parity)
   {
-    bnv[0] += cnl[0] + cnl[CNL];
+    bnv[0] = alg.add(parity[0], alg.add(cnl[0], cnl[CNL]));
     for (int i = 1; i < R-1; ++i)
-      bnv[i] += cnl[CNL*i+1] + cnl[CNL*(i+1)];
-    bnv[R-1] += cnl[CNL*(R-1)+1];
+      bnv[i] = alg.add(parity[i], alg.add(cnl[CNL*i+1], cnl[CNL*(i+1)]));
+    bnv[R-1] = alg.add(parity[R-1], cnl[CNL*(R-1)+1]);
 
     TYPE *bl = bnl;
     cnc[0] = 1;
     for (int i = 1; i < R; ++i)
       cnc[i] = 2;
-    *bl++ += cnl[CNL];
-    *bl++ += cnl[0];
+    *bl = alg.update(*bl, alg.add(parity[0], cnl[CNL])); ++bl;
+    *bl = alg.update(*bl, alg.add(parity[0], cnl[0])); ++bl;
     for (int i = 1; i < R-1; ++i) {
-      *bl++ += cnl[CNL*(i+1)];
-      *bl++ += cnl[CNL*i+1];
+      *bl = alg.update(*bl, alg.add(parity[i], cnl[CNL*(i+1)])); ++bl;
+      *bl = alg.update(*bl, alg.add(parity[i], cnl[CNL*i+1])); ++bl;
     }
-    ++bl; // alone
+    *bl = alg.update(*bl, parity[R-1]); ++bl;
     first_group();
     for (int j = 0; j < K; j += M) {
       for (int m = 0; m < M; ++m) {
@@ -209,18 +277,34 @@ class LDPC : public LDPCInterface<TYPE>
         }
         TYPE out[bit_deg];
         CODE::exclusive_reduce(inp, out, bit_deg, alg.add);
-        bnv[j+m+R] += out[0] + inp[0];
-        for (int n = 0; n < bit_deg; ++n)
-          *bl++ += out[n];
+        bnv[j+m+R] = alg.add(data[j+m], alg.add(out[0], inp[0]));
+        for (int n = 0; n < bit_deg; ++n, ++bl)
+          *bl = alg.update(*bl, alg.add(data[j+m], out[n]));
         next_bit();
       }
       next_group();
     }
     if (0) {
+      TYPE min = 0, max = 0;
+      for (int i = 0; i < TABLE::LINKS_TOTAL; ++i) {
+        min = std::min(min, bnv[i]);
+        max = std::max(max, bnv[i]);
+      }
+      std::cerr << "bnl: min = " << +min << " max = " << +max << std::endl;
+    }
+    if (0) {
+      TYPE min = 0, max = 0;
+      for (int i = 0; i < N; ++i) {
+        min = std::min(min, bnv[i]);
+        max = std::max(max, bnv[i]);
+      }
+      std::cerr << "bnv: min = " << +min << " max = " << +max << std::endl;
+    }
+    if (0) {
       static int count;
       std::cout << count++;
       for (int i = 0; i < N; ++i)
-        std::cout << " " << std::min<TYPE>(std::max<TYPE>(bnv[i], -1000000), 1000000);
+        std::cout << " " << +bnv[i];
       std::cout << std::endl;
     }
   }
@@ -261,11 +345,10 @@ public:
       return trials;
     }
     --trials;
-    bit_node_update();
+    bit_node_update(data, parity);
     check_node_update();
     while (hard_decision() && --trials >= 0) {
-      bit_node_init(data, parity);
-      bit_node_update();
+      bit_node_update(data, parity);
       check_node_update();
     }
     update_user(data, parity);

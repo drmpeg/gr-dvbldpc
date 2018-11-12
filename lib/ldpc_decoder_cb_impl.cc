@@ -277,6 +277,7 @@ namespace gr {
               gr::io_signature::make(1, 1, sizeof(gr_complex)),
               gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
+      unsigned int rows;
       if (framesize == FECFRAME_NORMAL) {
         frame_size = FRAME_SIZE_NORMAL;
         switch (rate) {
@@ -556,6 +557,25 @@ namespace gr {
           break;
         case MOD_8PSK:
           mod = new PhaseShiftKeying<8, gr_complex, int8_t>();
+          rows = ldpc->code_len() / mod->bits();
+          /* 210 */
+          if (rate == C3_5) {
+            rowaddr0 = rows * 2;
+            rowaddr1 = rows;
+            rowaddr2 = 0;
+          }
+          /* 102 */
+          else if (rate == C25_36 || rate == C13_18 || rate == C7_15 || rate == C8_15 || rate == C26_45) {
+            rowaddr0 = rows;
+            rowaddr1 = 0;
+            rowaddr2 = rows * 2;
+          }
+          /* 012 */
+          else {
+            rowaddr0 = 0;
+            rowaddr1 = rows;
+            rowaddr2 = rows * 2;
+          }
           break;
         case MOD_16QAM:
           mod = new QuadratureAmplitudeModulation<16, gr_complex, int8_t>();
@@ -570,6 +590,7 @@ namespace gr {
           break;
       }
       frame = 0;
+      signal_constellation = constellation;
       code_rate = rate;
       dvb_standard = standard;
       output_mode = outputmode;
@@ -577,7 +598,7 @@ namespace gr {
         set_output_multiple(nbch);
       }
       else {
-         set_output_multiple(frame_size);
+        set_output_multiple(frame_size);
       }
     }
 
@@ -609,13 +630,16 @@ namespace gr {
     {
       const gr_complex *in = (const gr_complex *) input_items[0];
       unsigned char *out = (unsigned char *) output_items[0];
-      int8_t code[ldpc->code_len()];
+      int8_t soft[ldpc->code_len()];
+      int8_t dint[ldpc->code_len()];
       int8_t tmp[mod->bits()];
+      int8_t *code;
       float sp, np, sigma, precision, snr;
       gr_complex s, e;
       const int SYMBOLS = ldpc->code_len() / mod->bits();
       int trials = 50;
       int consumed = 0;
+      int rows, index;
       int output_size = output_mode ? nbch : ldpc->code_len();
 
       for (int i = 0; i < noutput_items; i += output_size) {
@@ -635,7 +659,24 @@ namespace gr {
         sigma = std::sqrt(np / (2 * sp));
         precision = FACTOR / (sigma * sigma);
         for (int j = 0; j < SYMBOLS; j++) {
-          mod->soft(code + (j * mod->bits()), in[j], precision);
+          mod->soft(soft + (j * mod->bits()), in[j], precision);
+        }
+        if (signal_constellation == MOD_8PSK) {
+          rows = ldpc->code_len() / mod->bits();
+          int8_t *c1, *c2, *c3;
+          c1 = &dint[rowaddr0];
+          c2 = &dint[rowaddr1];
+          c3 = &dint[rowaddr2];
+          index = 0;
+          for (int j = 0; j < rows; j++) {
+            c1[j] = soft[index++];
+            c2[j] = soft[index++];
+            c3[j] = soft[index++];
+          }
+          code = dint;
+        }
+        else {
+          code = soft;
         }
         int count = ldpc->decode(code, code + ldpc->data_len(), trials);
         if (count < 0) {

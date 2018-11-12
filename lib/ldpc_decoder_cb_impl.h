@@ -36,11 +36,20 @@ namespace gr {
     {
      private:
       unsigned int frame_size;
+      unsigned int signal_constellation;
       unsigned int code_rate;
       unsigned int nbch;
       unsigned int dvb_standard;
       unsigned int output_mode;
       unsigned int frame;
+      unsigned int rowaddr0;
+      unsigned int rowaddr1;
+      unsigned int rowaddr2;
+      unsigned int rowaddr3;
+      unsigned int rowaddr4;
+      unsigned int rowaddr5;
+      unsigned int rowaddr6;
+      unsigned int rowaddr7;
       LDPCInterface<int8_t> *ldpc;
       Modulation<gr_complex, int8_t> *mod;
 

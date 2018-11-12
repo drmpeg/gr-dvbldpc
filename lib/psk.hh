@@ -52,19 +52,19 @@ struct PhaseShiftKeying<2, TYPE, CODE> : public Modulation<TYPE, CODE>
     return BITS;
   }
 
-  void hard(code_type *b, complex_type c, int stride = 1)
+  void hard(code_type *b, complex_type c)
   {
-    b[0*stride] = c.real() < value_type(0) ? code_type(-1) : code_type(1);
+    b[0] = c.real() < value_type(0) ? code_type(-1) : code_type(1);
   }
 
-  void soft(code_type *b, complex_type c, value_type precision, int stride = 1)
+  void soft(code_type *b, complex_type c, value_type precision)
   {
-    b[0*stride] = quantize(precision, c.real());
+    b[0] = quantize(precision, c.real());
   }
 
-  complex_type map(code_type *b, int stride = 1)
+  complex_type map(code_type *b)
   {
-    return complex_type(b[0*stride], 0);
+    return complex_type(b[0], 0);
   }
 };
 
@@ -96,21 +96,21 @@ struct PhaseShiftKeying<4, TYPE, CODE> : public Modulation<TYPE, CODE>
     return BITS;
   }
 
-  void hard(code_type *b, complex_type c, int stride = 1)
+  void hard(code_type *b, complex_type c)
   {
-    b[0*stride] = c.real() < value_type(0) ? code_type(-1) : code_type(1);
-    b[1*stride] = c.imag() < value_type(0) ? code_type(-1) : code_type(1);
+    b[0] = c.real() < value_type(0) ? code_type(-1) : code_type(1);
+    b[1] = c.imag() < value_type(0) ? code_type(-1) : code_type(1);
   }
 
-  void soft(code_type *b, complex_type c, value_type precision, int stride = 1)
+  void soft(code_type *b, complex_type c, value_type precision)
   {
-    b[0*stride] = quantize(precision, c.real());
-    b[1*stride] = quantize(precision, c.imag());
+    b[0] = quantize(precision, c.real());
+    b[1] = quantize(precision, c.imag());
   }
 
-  complex_type map(code_type *b, int stride = 1)
+  complex_type map(code_type *b)
   {
-    return rcp_sqrt_2 * complex_type(b[0*stride], b[1*stride]);
+    return rcp_sqrt_2 * complex_type(b[0], b[1]);
   }
 };
 
@@ -157,25 +157,25 @@ struct PhaseShiftKeying<8, TYPE, CODE> : public Modulation<TYPE, CODE>
     return BITS;
   }
 
-  void hard(code_type *b, complex_type c, int stride = 1)
+  void hard(code_type *b, complex_type c)
   {
     c *= rot;
-    b[1*stride] = c.real() < value_type(0) ? code_type(-1) : code_type(1);
-    b[2*stride] = c.imag() < value_type(0) ? code_type(-1) : code_type(1);
-    b[0*stride] = std::abs(c.real()) < std::abs(c.imag()) ? code_type(-1) : code_type(1);
+    b[1] = c.real() < value_type(0) ? code_type(-1) : code_type(1);
+    b[2] = c.imag() < value_type(0) ? code_type(-1) : code_type(1);
+    b[0] = std::abs(c.real()) < std::abs(c.imag()) ? code_type(-1) : code_type(1);
   }
 
-  void soft(code_type *b, complex_type c, value_type precision, int stride = 1)
+  void soft(code_type *b, complex_type c, value_type precision)
   {
     c *= rot;
-    b[1*stride] = quantize(precision, c.real());
-    b[2*stride] = quantize(precision, c.imag());
-    b[0*stride] = quantize(precision, rcp_sqrt_2 * (std::abs(c.real()) - std::abs(c.imag())));
+    b[1] = quantize(precision, c.real());
+    b[2] = quantize(precision, c.imag());
+    b[0] = quantize(precision, rcp_sqrt_2 * (std::abs(c.real()) - std::abs(c.imag())));
   }
 
-  complex_type map(code_type *b, int stride = 1)
+  complex_type map(code_type *b)
   {
-    int index = ((((int)(b[0*stride]) + 1) << 1) ^ 0x4) | (((int)(b[1*stride]) + 1) ^ 0x2) | ((((int)(b[2*stride]) + 1) >> 1) ^ 0x1);
+    int index = ((((int)(b[0]) + 1) << 1) ^ 0x4) | (((int)(b[1]) + 1) ^ 0x2) | ((((int)(b[2]) + 1) >> 1) ^ 0x1);
     return complex_type(m_8psk[index]);
   }
 };
